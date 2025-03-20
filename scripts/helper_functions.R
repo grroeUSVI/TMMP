@@ -211,6 +211,7 @@ site_LF <- function(df, site, bin_size) {
                      limits = factor(br)) +
     xlab(label = "DBH Size Class (cm)") + 
     ylab(label = "Relative Frequency") + 
+    ggtitle(site) +
     theme_Publication() +
     facet_wrap(~SY)
   
