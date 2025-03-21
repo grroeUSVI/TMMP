@@ -41,17 +41,17 @@ sapling_data <- read_xlsx("../import_data/QA_QC_TMMP_March19_2025.xlsx", sheet =
 
 ## **Site Map**
 
-![](images/General%20Site%20Map.jpg)
+![](images/General Site Map-03.jpg)
+
+## **Percent Basal Change**
+
+![](images/PercentChange-02.jpg)
 
 ## **Tree Measurements**
 
 ```{r}
 create_tree_measurement_table(tree_measurements = tree_measurements, tree_heights = tree_heights)
 ```
-
-### Basal Area %Change
-
-![](images/General%20Site%20Map.jpg)
 
 ### DBH Size Distributions {.tabset}
 

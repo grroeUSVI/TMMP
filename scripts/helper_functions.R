@@ -159,7 +159,7 @@ percent_basal_area_change <- function(df) {
   
   a <- mean_basal_area(df) %>% 
     select(SY, Site, mean_basal_area) %>%
-    pivot_wider(names_from = SY, values_from = mean_basal_area) %>%
+    pivot_wider(names_from = SY, values_from = mean_basal_area, values_fill = 0) %>%
     mutate(percentage_change = ((SY3 - SY1) / SY1) * 100)
   
   return(a)
