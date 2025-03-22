@@ -3,15 +3,8 @@ library(readxl)
 library(tidyr)
 library(purrr)
 library(gt)
+library(ggbreak)
 library(ggplot2)
-
-
-# tree_measurements <- read_xlsx("import_data/QA_QC_TMMP_March19_2025.xlsx", sheet = "Tree measurements")
-# tree_heights <- read_xlsx("import_data/QA_QC_TMMP_March19_2025.xlsx", sheet = "Tree heights")
-# site_coords <- read_xlsx("import_data/QA_QC_TMMP_March19_2025.xlsx", sheet = "Coordinates")
-# densiemeter_data <- read_xlsx("import_data/QA_QC_TMMP_March19_2025.xlsx", sheet = "Densiometer data")
-# regen_data <- read_xlsx("import_data/QA_QC_TMMP_March19_2025.xlsx", sheet = "Regeneration")
-# sapling_data <- read_xlsx("import_data/QA_QC_TMMP_March19_2025.xlsx", sheet = "Sapling")
 
 # calculate basal area 
 # DBH: field measurement (cm)
@@ -34,11 +27,11 @@ standard_error <- function(x, na.rm = TRUE) {
 }
 
 # Calculate mean +- SE basal area by year and site
-# Hard coded filters: red, white, black mangroves & Alive & Years 1,3
-mean_basal_area <- function(df) {
+# Hard coded filters: red, white, black mangroves & Alive or Dying
+mean_basal_area <- function(tree_measurements) {
   
-  a <- df %>% 
-    filter(Species %in% c("RHMA", "AVGE", "LARA") & Mortality %in% c("Alive", "Dying") & SY != "SY2") %>% 
+  a <- tree_measurements %>% 
+    filter(Species %in% c("RHMA", "AVGE", "LARA") & Mortality %in% c("Alive", "Dying")) %>% 
     select(SY, Site, Plot, Species, DBH_cm) %>% 
     mutate(basal_area = basal_area(DBH_cm)) %>% 
     group_by(SY, Site, Plot) %>% 
@@ -54,10 +47,10 @@ mean_basal_area <- function(df) {
 
 # Calculate % species contribution to mean basal area by year and site
 # Hard coded filters: red, white, black mangroves & Alive or Dead & Years 1,3
-spp_contibution <- function(df) {
+spp_contibution <- function(tree_measurements) {
   
-  x <- df %>%
-    filter(Species %in% c("RHMA", "AVGE", "LARA") & SY != "SY2") %>%
+  x <- tree_measurements %>%
+    filter(Species %in% c("RHMA", "AVGE", "LARA")) %>%
     select(SY, Site, Plot, Species, DBH_cm) %>%
     group_by(SY, Site, Plot, Species) %>%
     summarise(basal_area_sum = sum(basal_area(DBH_cm), na.rm = T), .groups = "drop") %>% 
@@ -76,10 +69,10 @@ spp_contibution <- function(df) {
 
 # Calculate mean tree height(m) by year and site
 # Hard coded filters: red, white, black, NA, UNK mangroves & Alive or Dead & Years 1,3
-mean_tree_height <- function(df) {
+mean_tree_height <- function(tree_heights) {
   
-  a <- df %>% 
-    filter(Species %in% c("RHMA", "AVGE", "LARA", "NA", "UNK")& SY != "SY2") %>% 
+  a <- tree_heights %>% 
+    filter(Species %in% c("RHMA", "AVGE", "LARA", NA, "UNK")) %>% 
     select(SY, Site, Plot, Species, Tree_Height_m) %>% 
     group_by(SY, Site, Plot) %>% 
     summarise(mean_height_plot = mean(Tree_Height_m, na.rm = T), .groups = "drop") %>% 
@@ -91,10 +84,10 @@ mean_tree_height <- function(df) {
   
 }
 
-mean_stem_density <- function(df) {
+mean_stem_density <- function(tree_measurements) {
   
-  a <- df %>% 
-    filter(Species %in% c("RHMA", "AVGE", "LARA") & Mortality == "Alive" & SY != "SY2") %>% 
+  a <- tree_measurements %>% 
+    filter(Species %in% c("RHMA", "AVGE", "LARA") & Mortality %in% c("Alive", "Dying")) %>% 
     select(SY, Site, Plot, Species, DBH_cm) %>% 
     group_by(SY, Site, Plot) %>% 
     summarise(stem_plot_density = (length(DBH_cm))/.01, .groups = "drop") %>% 
@@ -102,6 +95,29 @@ mean_stem_density <- function(df) {
     summarise(mean_stem_density = mean(stem_plot_density, na.rm = T), mean_stem_density_SE = standard_error(stem_plot_density), .groups = "drop")
   
   return(a)
+}
+
+mean_water_quality <- function(YSI) {
+  
+  a <- YSI %>% 
+    select(SY, Site, Plot, Water_depth_cm, Temp, DO_mg, SPC, TDS) %>% 
+    group_by(SY, Site, Plot) %>% 
+    summarise(plot_depth = mean(Water_depth_cm, na.rm = TRUE),
+              plot_temp = mean(Temp, na.rm = TRUE),
+              plot_DO = mean(DO_mg, na.rm = TRUE),
+              plot_SPC = mean(SPC, na.rm = TRUE),
+              plot_TDS = mean(TDS, na.rm = TRUE),
+              .groups = "drop") %>% 
+    group_by(SY, Site) %>% 
+    summarise(mean_depth = mean(plot_depth, na.rm = TRUE), mean_depth_SE = standard_error(plot_depth),
+              mean_temp = mean(plot_temp, na.rm = TRUE), mean_temp_SE = standard_error(plot_temp),
+              mean_DO = mean(plot_DO, na.rm = TRUE), mean_DO_SE = standard_error(plot_DO),
+              mean_SPC = mean(plot_SPC, na.rm = TRUE), mean_SPC_SE = standard_error(plot_SPC),
+              mean_TDS = mean(plot_TDS, na.rm = TRUE), mean_TDS_SE = standard_error(plot_TDS),
+              .groups = "drop")
+  
+  return(a)
+  
 }
 
 create_tree_measurement_table <- function(tree_measurements, tree_heights) {
@@ -126,13 +142,14 @@ create_tree_measurement_table <- function(tree_measurements, tree_heights) {
   
 # Table using gt
  table <- format_x %>% 
-    gt(rowname_col = "SY", groupname_col = "Site") %>% 
-    cols_add(empty = NA_character_, .before = "Height") %>% 
-    sub_missing(columns = empty, missing_text = "     ") %>%
+    # gt(groupname_col = c("Site")) %>%
+    gt(rowname_col = "SY", groupname_col = "Site") %>%
+    # cols_add(empty = NA_character_, .before = "SY") %>%
+    # sub_missing(columns = empty, missing_text = "     ") %>%
     fmt_markdown() %>% 
     cols_label(
-      empty = md('&emsp;&emsp;&emsp;'),
-      SY = "",
+      # empty = md('&emsp;&emsp;&emsp;'),
+      SY = md("Year <br/> &emsp; "),
       RHMA = md("*R. mangle* <br/> (%)"),
       AVGE = md("*A. germinians* <br/> (%)"),
       LARA = md("*L. racemosa* <br/> (%)"),
@@ -142,32 +159,42 @@ create_tree_measurement_table <- function(tree_measurements, tree_heights) {
     ) %>% 
     tab_spanner(label = "Relative Distribution of Species", columns = RHMA:LARA) %>% 
     cols_align(align = "center", everything()) %>%
-    cols_width(empty ~ px(30),
-               Density ~ px(120),
-               everything() ~ px(100)) %>% 
-    tab_options(
-      table.font.size = px(14),  
-      row_group.as_column = FALSE,  
-      data_row.padding = px(5)
-    )
+    # cols_width(empty ~ px(30),
+    #            Density ~ px(120),
+    #            everything() ~ px(100)) %>%
+   cols_width(everything() ~ px(100)) %>%
+   tab_options(
+     table.font.size = px(14),
+     row_group.as_column = FALSE,
+     data_row.padding = px(5)
+   )
+   # opt_interactive(
+   # use_search = TRUE,
+   # use_filters = FALSE,
+   # use_resizers = TRUE,
+   # use_highlight = TRUE,
+   # use_compact_mode = FALSE,
+   # use_text_wrapping = FALSE,
+   # use_page_size_select = TRUE
+   # )
  
  return(table)
   
 }
 
-percent_basal_area_change <- function(df) {
+percent_basal_area_change <- function(tree_measurements) {
   
-  a <- mean_basal_area(df) %>% 
+  a <- mean_basal_area(tree_measurements) %>% 
     select(SY, Site, mean_basal_area) %>%
     pivot_wider(names_from = SY, values_from = mean_basal_area, values_fill = 0) %>%
-    mutate(percentage_change = ((SY3 - SY1) / SY1) * 100)
+    mutate(percentage_change = ((`2024` - `2022`) / `2022` * 100))
   
   return(a)
 }
 
-site_coordinates <- function(df) {
+site_coordinates <- function(Coordinates) {
   
-  a <- df %>% 
+  a <- Coordinates %>% 
     group_by(Island, Site) %>% 
     summarise(Typology = first(`Forest type`),Latitude = mean(Latitude), Longitude = mean(Longitude))
   
@@ -175,9 +202,9 @@ site_coordinates <- function(df) {
   
 }
 
-site_LF <- function(df, site, bin_size) {
+site_LF <- function(tree_measurements, site, bin_size) {
   
-  a <- df %>% filter(Site == site & DBH_cm >= 0 & Mortality != "NA") %>%  
+  a <- tree_measurements %>% filter(Site == site & DBH_cm >= 0 & Mortality != "NA") %>%  
     mutate(Mortality = if_else(Mortality == "Dying", "Alive", Mortality)) %>% 
     group_by(SY, DBH_cm, Mortality) %>% 
     summarise(n = n(), .groups = "drop") %>%
@@ -219,8 +246,8 @@ site_LF <- function(df, site, bin_size) {
 
 # Work in progress
 # Currently a diverging bar chart with open plotted as line over top
-densiometer_chart <- function(df) {
-  a <- df %>% select(Site, Plot, SY, starts_with("Calc"))
+densiometer_figure <- function(densiometer_data) {
+  a <- densiometer_data %>% select(Site, Plot, SY, starts_with("Calc"))
   b <- df_long <- a %>%
     mutate(across(starts_with("Calc_"), ~ suppressWarnings(as.numeric(.)))) %>% 
     pivot_longer(cols = starts_with("Calc_"),
@@ -255,13 +282,13 @@ densiometer_chart <- function(df) {
 }
 
 # This is working but needs some refactoring
-seedling_density <- function(regen, densio) {
+seedling_density <- function(regen, densio, breaks = NULL) {
   
   site <- densio %>% 
     group_by(Island) %>% 
     reframe(Site = unique(Site))
   
-  a <- regen %>% 
+  a <- regen %>%
     pivot_longer(cols = c(RHMA_seedlings, RHMA_saplings, 
                           LARA_seedlings, LARA_saplings, 
                           AVGE_seedlings, AVGE_saplings),
@@ -299,7 +326,7 @@ seedling_density <- function(regen, densio) {
     (y - min_h) / (max_h - min_h) * (max_m - min_m) + min_m
   }
   
-  ggplot(c, aes(x = Site, y = mean_site, fill = SY)) + 
+  ggplot(c, aes(x = Site, y = mean_site, fill = factor(SY))) + 
     geom_bar(stat = "identity", position = "dodge", width = 0.75) +
     geom_errorbar(aes(ymax = mean_site + count_SE, ymin = mean_site, color = SY), 
                   position = position_dodge(width = 0.75), width = 0.25, show.legend = FALSE) +
@@ -310,17 +337,22 @@ seedling_density <- function(regen, densio) {
                position = position_dodge(width = 0.75),
                show.legend = FALSE) +
     scale_y_continuous(
-      name = expression("Seelings/m"^2), 
+      name = expression("Seedlings/m"^2), 
       sec.axis = sec_axis(~ (.- min(c$mean_site, na.rm = TRUE)) / 
                             ((max(c$mean_site, na.rm = TRUE) + max(c$count_SE, na.rm = T)) - min(c$mean_site, na.rm = TRUE)) *
                             (max(c$height_site, na.rm = TRUE) - min(c$height_site, na.rm = TRUE)) + 
                             min(c$height_site, na.rm = TRUE),
-                            name = "Mean seedling height(cm)")
-    ) +
+                            name = "Mean seedling height(cm)") 
+    ) + {
+      # if breaks parameter is not null add this to ggplot
+      if (!is.null(breaks)) scale_y_break(c(breaks, breaks), space = .025, scales = "free")
+    } +
     labs(x = element_blank(), fill = "SY", color = "SY") +
     theme_Publication() +
     theme(axis.text.x = element_text(angle=45, vjust = 1, hjust = 1),
           axis.text = element_text(size = 12),
+          axis.title.y.right = element_text(family = "Calibri", size = 12),
+          axis.text.y.right = element_text(family = "Calibri", size = 12),
           strip.placement='outside',
           strip.background.x=element_blank(),
           strip.text=element_text(size=12,color="black",face="bold"),
@@ -343,9 +375,9 @@ sapling_density <- function(df) {
   
 }
 
-seedling_rel_abundance <- function(df) {
+seedling_rel_abundance_table <- function(regen_data) {
   
-  a <- df %>% 
+  a <- regen_data %>% 
     pivot_longer(cols = c(RHMA_seedlings, RHMA_saplings, 
                           LARA_seedlings, LARA_saplings, 
                           AVGE_seedlings, AVGE_saplings),
@@ -400,29 +432,60 @@ seedling_rel_abundance <- function(df) {
   
 }
 
-
-
-# quick check for matching samling data against regen counts  
-# a <- regen_data %>% 
-#   pivot_longer(cols = c(RHMA_seedlings, RHMA_saplings, 
-#                         LARA_seedlings, LARA_saplings, 
-#                         AVGE_seedlings, AVGE_saplings),
-#                names_to = c("Species", "Stage"),
-#                names_pattern = "([A-Z]+)_(seedlings|saplings)") %>%
-#   select(SY, Site, Plot, Quadrat, Species, Stage, Count = value) %>%
-#   filter(Stage == "saplings") %>% 
-#   select(SY:Quadrat, Count) %>% 
-#   group_by(SY, Site, Plot) %>% 
-#   summarise(regen_sum = sum(Count, na.rm = T), .groups = "drop")
-# 
-# b <- sapling_data %>% 
-#   select(SY, Site, Plot, Quadrat, Height_cm) %>% 
-#   group_by(SY, Site, Plot, Quadrat) %>% 
-#   summarise(cnt = length(Height_cm)) %>% 
-#   group_by(SY, Site, Plot) %>% 
-#   summarise(sap_sum = sum(cnt), .groups = "drop")
-# 
-# c <- a %>% full_join(b) %>% 
-#   mutate(sap_sum = replace_na(sap_sum, 0)) %>% 
-#   mutate(check = regen_sum == sap_sum)
+water_qual_table <- function(YSI) {
   
+  a <- mean_water_quality(YSI)
+  
+  format_x <- a %>% 
+    mutate(across(where(is.numeric), round, 1)) %>% 
+    mutate(mean_SPC = round(mean_SPC, digits = 0),
+           mean_SPC_SE = round(mean_SPC_SE, digits = 0),
+           mean_TDS = round(mean_TDS, digits = 0),
+           mean_TDS_SE = round(mean_TDS_SE, digits = 0)) %>%
+    mutate(
+      Depth = paste(mean_depth, "±", mean_depth_SE),
+      Temp = paste(mean_temp, "±", mean_temp_SE),
+      DO = paste(mean_DO, "±", mean_DO_SE),
+      SPC = paste(mean_SPC, "±", mean_SPC_SE),
+      TDS = paste(mean_TDS, "±", mean_TDS_SE)
+    ) %>% 
+    select(SY, Site, Depth, Temp, DO, SPC, TDS)
+  
+  # Table using gt
+  table <- format_x %>% 
+    gt(rowname_col = "SY", groupname_col = "Site") %>%
+    # cols_add(empty = NA_character_, .before = "SY") %>%
+    # sub_missing(columns = empty, missing_text = "     ") %>%
+    fmt_markdown() %>% 
+    cols_label(
+      # empty = md('&emsp;&emsp;&emsp;'),
+      SY = md("Year <br/> &emsp; "),
+      Depth = md("Depth <br/> (cm)"),
+      Temp = md("Temperature <br/> (&deg;C)"),
+      DO = md("Dissolved Oxygen <br/> (mg/L)"),
+      SPC = md("Specific Conductance <br/> (\u00b5S/cm)"),
+      TDS = md("Total Dissolved Solids <br/> (mg/L)")
+    ) %>% 
+    cols_align(align = "center", everything()) %>%
+    # cols_width(empty ~ px(30),
+    #            Density ~ px(120),
+    #            everything() ~ px(100)) %>%
+    cols_width(everything() ~ px(120)) %>%
+    tab_options(
+      table.font.size = px(14),
+      row_group.as_column = FALSE,
+      data_row.padding = px(5)
+    )
+  # opt_interactive(
+  # use_search = TRUE,
+  # use_filters = FALSE,
+  # use_resizers = TRUE,
+  # use_highlight = TRUE,
+  # use_compact_mode = FALSE,
+  # use_text_wrapping = FALSE,
+  # use_page_size_select = TRUE
+  # )
+  
+  return(table)
+  
+}

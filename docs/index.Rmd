@@ -1,7 +1,7 @@
 ---
 title: "TMMP"
 author:
-date: "2025-03-20"
+date:
 output: 
   html_document:
     theme: sandstone
@@ -14,6 +14,9 @@ output:
 .main-container {
   max-width: 85% !important;
   margin: auto;
+}
+h1, h2 {
+  text-align: center;
 }
 </style>
 ```
@@ -31,25 +34,34 @@ source("../scripts/labeler.R", local = knitr::knit_global())
 source("../scripts/theme_publication.R", local = knitr::knit_global())
 
 
-tree_measurements <- read_xlsx("../import_data/QA_QC_TMMP_March19_2025.xlsx", sheet = "Tree measurements")
-tree_heights <- read_xlsx("../import_data/QA_QC_TMMP_March19_2025.xlsx", sheet = "Tree heights")
-site_coords <- read_xlsx("../import_data/QA_QC_TMMP_March19_2025.xlsx", sheet = "Coordinates")
-densiometer_data <- read_xlsx("../import_data/QA_QC_TMMP_March19_2025.xlsx", sheet = "Densiometer data")
-regen_data <- read_xlsx("../import_data/QA_QC_TMMP_March19_2025.xlsx", sheet = "Regeneration")
-sapling_data <- read_xlsx("../import_data/QA_QC_TMMP_March19_2025.xlsx", sheet = "Sapling")
+tree_measurements <- read_xlsx("../import_data/QA_QC_TMMP_March22_2025.xlsx", sheet = "Tree measurements")
+tree_heights <- read_xlsx("../import_data/QA_QC_TMMP_March22_2025.xlsx", sheet = "Tree heights")
+site_coords <- read_xlsx("../import_data/QA_QC_TMMP_March22_2025.xlsx", sheet = "Coordinates")
+densiometer_data <- read_xlsx("../import_data/QA_QC_TMMP_March22_2025.xlsx", sheet = "Densiometer data")
+regen_data <- read_xlsx("../import_data/QA_QC_TMMP_March22_2025.xlsx", sheet = "Regeneration")
+sapling_data <- read_xlsx("../import_data/QA_QC_TMMP_March22_2025.xlsx", sheet = "Sapling")
+YSI_data <- read_xlsx("../import_data/QA_QC_TMMP_March22_2025.xlsx", sheet = "YSI Water Quality data")
 ```
 
 ## **Site Map**
 
-![](images/General Site Map-03.jpg)
+![](images/General%20Site%20Map-03.jpg)
+
+------------------------------------------------------------------------
+
+------------------------------------------------------------------------
 
 ## **Percent Basal Change**
 
 ![](images/PercentChange-02.jpg)
 
+------------------------------------------------------------------------
+
+------------------------------------------------------------------------
+
 ## **Tree Measurements**
 
-```{r}
+```{r, fig.align = 'left'}
 create_tree_measurement_table(tree_measurements = tree_measurements, tree_heights = tree_heights)
 ```
 
@@ -60,14 +72,14 @@ create_tree_measurement_table(tree_measurements = tree_measurements, tree_height
 ```{r results='asis', echo=FALSE}
 
 island <- densiometer_data %>% 
-  filter(Island =="St Thomas") %>% 
+  filter(Island == "St Thomas") %>% 
   reframe(Site = unique(Site))
 
 for(i in island$Site) {
   
   cat("  \n#####",  i, "\n")
   
-  print(site_LF(tree_measurements, site = i, bin_size = 3))
+  print(site_LF(tree_measurements = tree_measurements, site = i, bin_size = 3))
   
   cat("  \n")
 }
@@ -85,7 +97,7 @@ for(i in island$Site) {
   
   cat("  \n#####",  i, "\n")
   
-  print(site_LF(tree_measurements, site = i, bin_size = 3))
+  print(site_LF(tree_measurements = tree_measurements, site = i, bin_size = 3))
   
   cat("  \n")
 }
@@ -103,40 +115,62 @@ for(i in island$Site) {
   
   cat("  \n#####",  i, "\n")
   
-  print(site_LF(tree_measurements, site = i, bin_size = 3))
+  print(site_LF(tree_measurements = tree_measurements, site = i, bin_size = 3))
   
   cat("  \n")
 }
 ```
 
+------------------------------------------------------------------------
+
+------------------------------------------------------------------------
+
 ## **Seedlings**
 
 ### Relative Abundance
 
-```{r}
-seedling_rel_abundance(df = regen_data)
+```{r , }
+seedling_rel_abundance_table(regen_data = regen_data)
 ```
 
 ### Density
 
-```{r, out.width="80%"}
-seedling_density(regen = regen_data, densio = densiometer_data)
+```{r, out.width="80%", fig.dim = c(10, 7.5)}
+seedling_density(regen = regen_data, densio = densiometer_data, breaks = 12)
 ```
+
+------------------------------------------------------------------------
+
+------------------------------------------------------------------------
 
 ## **Saplings**
 
 Sampling density table and figure
 
+------------------------------------------------------------------------
+
+------------------------------------------------------------------------
+
 ## **Woody Debris**
 
 Fine, medium and coarse woody debris figures
 
+------------------------------------------------------------------------
+
+------------------------------------------------------------------------
+
 ## **Densiometer**
 
-```{r, out.width="80%"}
-densiometer_chart(df = densiometer_data)
+```{r, out.width="80%", fig.dim = c(7.5, 10)}
+densiometer_figure(densiometer_data = densiometer_data)
 ```
+
+------------------------------------------------------------------------
+
+------------------------------------------------------------------------
 
 ## **YSI**
 
-YSI measurement table
+```{r, out.width="80%"}
+water_qual_table(YSI = YSI_data)
+```
