@@ -62,8 +62,9 @@ YSI_data <- read_xlsx("../import_data/QA_QC_TMMP_March22_2025.xlsx", sheet = "YS
 
 ## **Tree Measurements**
 
-```{r, fig.align = 'left'}
-create_tree_measurement_table(tree_measurements = tree_measurements, tree_heights = tree_heights)
+```{r}
+create_tree_measurement_table(tree_measurements = tree_measurements, tree_heights = tree_heights) %>% 
+  tab_options(table.width = "85%")
 ```
 
 ### DBH Size Distributions {.tabset}
@@ -130,8 +131,9 @@ for(i in island$Site) {
 
 ### Relative Abundance
 
-```{r , }
-seedling_rel_abundance_table(regen_data = regen_data)
+```{r}
+seedling_rel_abundance_table(regen_data = regen_data) %>% 
+  tab_options(table.width = "85%")
 ```
 
 ### Density
@@ -178,6 +180,7 @@ densiometer_figure(densiometer_data = densiometer_data)
 
 ## **YSI**
 
-```{r, out.width="80%"}
-water_qual_table(YSI = YSI_data)
+```{r}
+water_qual_table(YSI = YSI_data) %>% 
+  tab_options(table.width = "85%")
 ```
