@@ -27,6 +27,7 @@ knitr::opts_chunk$set(warning = FALSE, message = FALSE, echo = F)
 library(tidyverse)
 library(gt)
 library(readxl)
+library(webshot2)
 
 # Source Plotting Functions
 source("../scripts/helper_functions.R", local = knitr::knit_global())
@@ -53,7 +54,7 @@ YSI_data <- read_xlsx("../import_data/QA_QC_TMMP_March22_2025.xlsx", sheet = "YS
 
 ## **Percent Basal Change**
 
-![](images/PercentChange-02.jpg)
+![](images/PercentChange-03.jpg)
 
 ------------------------------------------------------------------------
 
@@ -136,7 +137,7 @@ seedling_rel_abundance_table(regen_data = regen_data)
 ### Density
 
 ```{r, out.width="80%", fig.dim = c(10, 7.5)}
-seedling_density(regen = regen_data, densio = densiometer_data, breaks = 12)
+seedling_density(regen = regen_data, densio = densiometer_data, breaks = 15)
 ```
 
 ------------------------------------------------------------------------
@@ -145,7 +146,13 @@ seedling_density(regen = regen_data, densio = densiometer_data, breaks = 12)
 
 ## **Saplings**
 
-Sampling density table and figure
+### Density
+
+```{r, out.width="80%", fig.dim = c(10, 7.5)}
+sapling_density(regen =  regen_data, sapling = sapling_data, species = "RHMA", densio = densiometer_data)
+sapling_density(regen =  regen_data, sapling = sapling_data, species = "AVGE", densio = densiometer_data)
+sapling_density(regen =  regen_data, sapling = sapling_data, species = "LARA", densio = densiometer_data)
+```
 
 ------------------------------------------------------------------------
 

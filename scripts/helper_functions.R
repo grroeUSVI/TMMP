@@ -6,6 +6,7 @@ library(gt)
 library(ggbreak)
 library(ggplot2)
 
+
 # calculate basal area 
 # DBH: field measurement (cm)
 # returns basal area in m^2/ha
@@ -244,8 +245,7 @@ site_LF <- function(tree_measurements, site, bin_size) {
   
 }
 
-# Work in progress
-# Currently a diverging bar chart with open plotted as line over top
+# Diverging bar chart with open plotted as line over top
 densiometer_figure <- function(densiometer_data) {
   a <- densiometer_data %>% select(Site, Plot, SY, starts_with("Calc"))
   b <- df_long <- a %>%
@@ -281,7 +281,7 @@ densiometer_figure <- function(densiometer_data) {
     scale_color_manual(values = c("Open Area" = "deepskyblue"))
 }
 
-# This is working but needs some refactoring
+# Seedling density +-SE by Site/Year grouped by Island with mean height as second axis
 seedling_density <- function(regen, densio, breaks = NULL) {
   
   site <- densio %>% 
@@ -345,7 +345,7 @@ seedling_density <- function(regen, densio, breaks = NULL) {
                             name = "Mean seedling height(cm)") 
     ) + {
       # if breaks parameter is not null add this to ggplot
-      if (!is.null(breaks)) scale_y_break(c(breaks, breaks), space = .025, scales = "free")
+      if (!is.null(breaks)) scale_y_break(c(breaks, breaks + 1), space = .025, scales = "free")
     } +
     labs(x = element_blank(), fill = "SY", color = "SY") +
     theme_Publication() +
@@ -360,19 +360,97 @@ seedling_density <- function(regen, densio, breaks = NULL) {
     facet_grid(cols=vars(Island),scales="free_x",space="free_x",switch="x")
 }
 
-sapling_density <- function(df) {
+# Sapling density +-SE by Species/Site/Year grouped by Island with mean height as second axis
+sapling_density <- function(regen, sapling, species, densio, breaks = NULL) {
+
+  pretty_name <- function(species) {
+    
+    a <- case_when(
+      species == "RHMA" ~ "R. mangle",
+      species == "AVGE" ~ "A. germinians",
+      species == "LARA" ~ "L. racemosa"
+    )  
+  return(a)
+  }
   
-  a <- regen_data %>% 
-    select(SY, Site, Plot) %>% 
-    group_by(SY, Site) %>% 
-    summarise(cnt = n_distinct(Plot))
+  site <- densio %>% 
+    group_by(Island) %>% 
+    reframe(Site = unique(Site))
   
-  b <- sapling_data %>% 
-    select(!c(Date, Notes)) %>% 
+  a <- regen %>%
+    pivot_longer(cols = c(RHMA_seedlings, RHMA_saplings,
+                          LARA_seedlings, LARA_saplings,
+                          AVGE_seedlings, AVGE_saplings),
+                 names_to = c("Species", "Stage"),
+                 names_pattern = "([A-Z]+)_(seedlings|saplings)") %>%
+    select(SY, Site, Plot, Quadrat, Species, Stage, Count = value) %>%
+    filter(Stage == "saplings") %>%
+    group_by(SY, Site, Plot, Quadrat, Species) %>%
+    summarise(regen_sum = sum(Count, na.rm = T), .groups = "drop") %>% 
     group_by(SY, Site, Plot, Species) %>% 
-    summarise(count = length(Height_cm), .groups = "drop") %>% 
-    pivot_wider(names_from = Species, values_from = count, values_fill = 0)
+    summarise(plot_dens = mean(regen_sum, na.rm=TRUE), plot_dens_SE = standard_error(regen_sum, na.rm=TRUE), .groups = "drop")
   
+  b <- sapling %>%
+    select(SY, Site, Plot, Quadrat, Species, Height_cm) %>%
+    group_by(SY, Site, Plot, Quadrat, Species) %>%
+    summarise(quad_ht = mean(Height_cm, na.rm=TRUE), .groups = "drop") %>%
+    group_by(SY, Site, Plot, Species) %>%
+    summarise(plot_ht = mean(quad_ht, na.rm=TRUE), .groups = "drop")
+  
+  c <- a %>% left_join(b) %>%
+    group_by(SY, Site, Species) %>% 
+    summarise(mean_dens = mean(plot_dens, na.rm=TRUE), mean_dens_SE = standard_error(plot_dens), mean_ht = mean(plot_ht, na.rm=TRUE), .groups = "drop") %>% 
+    left_join(site) %>% 
+    mutate(Island = factor(Island, levels = c("St Thomas", "St John", "St Croix")))
+  
+  
+  height_rescale <- function(y) {
+    min_h <- min(c$mean_ht, na.rm = TRUE)
+    max_h <- max(c$mean_ht, na.rm = TRUE)
+    min_m <- min(c$mean_dens, na.rm = TRUE)
+    max_m <- max(c$mean_dens, na.rm = TRUE) + max(c$mean_dens_SE, na.rm = T)
+    
+    # Scale height_site to match the primary y-axis range
+    (y - min_h) / (max_h - min_h) * (max_m - min_m) + min_m
+  }
+  
+  c %>% 
+    filter(Species == species) %>% 
+    ggplot(aes(x = Site, y = mean_dens, fill = factor(SY))) + 
+    geom_bar(stat = "identity", position = "dodge", width = 0.75) +
+    geom_errorbar(aes(ymax = mean_dens + mean_dens_SE, ymin = mean_dens, color = SY), 
+                  position = position_dodge(width = 0.75), width = 0.25, show.legend = FALSE) +
+    guides(fill = guide_legend(title = "Year")) +
+    geom_point(aes(y = height_rescale(mean_ht), color = SY), 
+               shape = 8,  # Asterisk shape
+               size = 4,
+               position = position_dodge(width = 0.75),
+               show.legend = FALSE) +
+    scale_y_continuous(
+      name = expression("Saplings/m"^2), 
+      sec.axis = sec_axis(~ (.- min(c$mean_dens, na.rm = TRUE)) / 
+                            ((max(c$mean_dens, na.rm = TRUE) + max(c$mean_dens_SE, na.rm = T)) - min(c$mean_dens, na.rm = TRUE)) *
+                            (max(c$mean_ht, na.rm = TRUE) - min(c$mean_ht, na.rm = TRUE)) + 
+                            min(c$mean_ht, na.rm = TRUE),
+                          name = "Mean sapling height(cm)")
+    ) + {
+      # if breaks parameter is not null add this to ggplot
+      if (!is.null(breaks)) scale_y_break(c(breaks, breaks), space = .025, scales = "free")
+    } +
+    labs(x = element_blank(), fill = "SY", color = "SY") +
+    theme_Publication() +
+    theme(axis.text.x = element_text(angle=45, vjust = 1, hjust = 1),
+          axis.text = element_text(size = 12),
+          axis.title.y.right = element_text(family = "Calibri", size = 12),
+          axis.text.y.right = element_text(family = "Calibri", size = 12),
+          strip.placement='outside',
+          strip.background.x=element_blank(),
+          strip.text=element_text(size=12,color="black",face="bold"),
+          panel.spacing.x=unit(0,"pt")) +
+    facet_grid(cols=vars(Island),scales="free_x",space="free_x",switch="x") +
+    ggtitle(pretty_name(species)) +
+    theme(plot.title = element_text(face = "italic"))
+
 }
 
 seedling_rel_abundance_table <- function(regen_data) {

@@ -24,6 +24,14 @@ ggsave(filename =  paste(output_dir,"seedling_figure_break.jpg"), plot = seedlin
 seedling_rel_abun_table <- seedling_rel_abundance_table(regen_data = regen_data)%>%
   gtsave(filename =  paste(output_dir,"seedling_rel_abun_table.pdf"))
 
+## Sapling density figures
+rhma_density <- sapling_density(regen = regen_data, sapling = sapling_data, species = "RHMA", densio = densiometer_data)
+avge_density <- sapling_density(regen = regen_data, sapling = sapling_data, species = "AVGE", densio = densiometer_data)
+lara_density <- sapling_density(regen = regen_data, sapling = sapling_data, species = "LARA", densio = densiometer_data)
+ggsave(filename =  paste(output_dir,"rhma_density.jpg"), plot = rhma_density, width = 9.8, height = 7.5, dpi = 300, units = "in", device = "jpg")
+ggsave(filename =  paste(output_dir,"avge_density.jpg"), plot = avge_density, width = 9.8, height = 7.5, dpi = 300, units = "in", device = "jpg")
+ggsave(filename =  paste(output_dir,"lara_density.jpg"), plot = lara_density, width = 9.8, height = 7.5, dpi = 300, units = "in", device = "jpg")
+
 ## Water quality table
 water_quality_table <- water_qual_table(YSI = YSI_data) %>%
   gtsave(filename =  paste(output_dir,"water_quality_table.pdf"))
