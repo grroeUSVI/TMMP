@@ -72,7 +72,7 @@ create_tree_measurement_table(tree_measurements = tree_measurements, tree_height
 
 #### St. Thomas {.tabset}
 
-```{r results='asis', echo=FALSE}
+```{r results='asis', echo=FALSE, fig.width=9.8, fig.height=7.5}
 
 island <- densiometer_data %>% 
   filter(Island == "St Thomas") %>% 
@@ -90,7 +90,7 @@ for(i in island$Site) {
 
 #### St. John {.tabset}
 
-```{r results='asis', echo=FALSE}
+```{r results='asis', echo=FALSE, fig.width=9.8, fig.height=7.5}
 
 island <- densiometer_data %>% 
   filter(Island =="St John") %>% 
@@ -108,7 +108,7 @@ for(i in island$Site) {
 
 #### St. Croix {.tabset}
 
-```{r results='asis', echo=FALSE}
+```{r results='asis', echo=FALSE, fig.width=9.8, fig.height=7.5}
 
 island <- densiometer_data %>% 
   filter(Island =="St Croix") %>% 
