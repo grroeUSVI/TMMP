@@ -35,13 +35,13 @@ source("../scripts/labeler.R", local = knitr::knit_global())
 source("../scripts/theme_publication.R", local = knitr::knit_global())
 
 
-tree_measurements <- read_xlsx("../import_data/QA_QC_TMMP_March22_2025.xlsx", sheet = "Tree measurements")
-tree_heights <- read_xlsx("../import_data/QA_QC_TMMP_March22_2025.xlsx", sheet = "Tree heights")
-site_coords <- read_xlsx("../import_data/QA_QC_TMMP_March22_2025.xlsx", sheet = "Coordinates")
-densiometer_data <- read_xlsx("../import_data/QA_QC_TMMP_March22_2025.xlsx", sheet = "Densiometer data")
-regen_data <- read_xlsx("../import_data/QA_QC_TMMP_March22_2025.xlsx", sheet = "Regeneration")
-sapling_data <- read_xlsx("../import_data/QA_QC_TMMP_March22_2025.xlsx", sheet = "Sapling")
-YSI_data <- read_xlsx("../import_data/QA_QC_TMMP_March22_2025.xlsx", sheet = "YSI Water Quality data")
+tree_measurements <- read_xlsx("../import_data/QA_QC_TMMP_March25_2025.xlsx", sheet = "Tree measurements")
+tree_heights <- read_xlsx("../import_data/QA_QC_TMMP_March25_2025.xlsx", sheet = "Tree heights")
+site_coords <- read_xlsx("../import_data/QA_QC_TMMP_March25_2025.xlsx", sheet = "Coordinates")
+densiometer_data <- read_xlsx("../import_data/QA_QC_TMMP_March25_2025.xlsx", sheet = "Densiometer data")
+regen_data <- read_xlsx("../import_data/QA_QC_TMMP_March25_2025.xlsx", sheet = "Regeneration")
+sapling_data <- read_xlsx("../import_data/QA_QC_TMMP_March25_2025.xlsx", sheet = "Sapling")
+YSI_data <- read_xlsx("../import_data/QA_QC_TMMP_March25_2025.xlsx", sheet = "YSI Water Quality data")
 ```
 
 ## **Site Map**
@@ -130,7 +130,7 @@ for(i in island$Site) {
 
 ## **Seedlings**
 
-### Relative Abundance
+### Seedling Density
 
 ```{r}
 seedling_rel_abundance_table(regen_data = regen_data) %>% 
@@ -180,7 +180,7 @@ densiometer_figure(densiometer_data = densiometer_data)
 
 ------------------------------------------------------------------------
 
-## **YSI**
+## **Water Quality**
 
 ```{r}
 water_qual_table(YSI = YSI_data) %>% 

@@ -101,19 +101,19 @@ mean_stem_density <- function(tree_measurements) {
 mean_water_quality <- function(YSI) {
   
   a <- YSI %>% 
-    select(SY, Site, Plot, Water_depth_cm, Temp, DO_mg, SPC, TDS) %>% 
+    select(SY, Site, Plot, Water_depth, Temp, DO_mg_L, Salinity_ppt, TDS) %>% 
     group_by(SY, Site, Plot) %>% 
-    summarise(plot_depth = mean(Water_depth_cm, na.rm = TRUE),
+    summarise(plot_depth = mean(Water_depth, na.rm = TRUE),
               plot_temp = mean(Temp, na.rm = TRUE),
-              plot_DO = mean(DO_mg, na.rm = TRUE),
-              plot_SPC = mean(SPC, na.rm = TRUE),
+              plot_DO = mean(DO_mg_L, na.rm = TRUE),
+              plot_SAL = mean(Salinity_ppt, na.rm = TRUE),
               plot_TDS = mean(TDS, na.rm = TRUE),
               .groups = "drop") %>% 
     group_by(SY, Site) %>% 
     summarise(mean_depth = mean(plot_depth, na.rm = TRUE), mean_depth_SE = standard_error(plot_depth),
               mean_temp = mean(plot_temp, na.rm = TRUE), mean_temp_SE = standard_error(plot_temp),
               mean_DO = mean(plot_DO, na.rm = TRUE), mean_DO_SE = standard_error(plot_DO),
-              mean_SPC = mean(plot_SPC, na.rm = TRUE), mean_SPC_SE = standard_error(plot_SPC),
+              mean_SAL = mean(plot_SAL, na.rm = TRUE), mean_SAL_SE = standard_error(plot_SAL),
               mean_TDS = mean(plot_TDS, na.rm = TRUE), mean_TDS_SE = standard_error(plot_TDS),
               .groups = "drop")
   
@@ -237,6 +237,7 @@ site_LF <- function(tree_measurements, site, bin_size) {
     scale_x_discrete(breaks = br,
                      labels = la[1:(length(unique(b$Bin)))],
                      limits = factor(br)) +
+    scale_fill_manual(values = c("Alive" = "darkolivegreen3", "Dead" = "burlywood4")) +
     xlab(label = "DBH Size Class (cm)") + 
     ylab(label = "Relative Frequency") + 
     ggtitle(site) +
@@ -312,7 +313,8 @@ seedling_density <- function(regen, densio, breaks = NULL) {
   c <- a %>% 
     full_join(b) %>% 
     left_join(site) %>% 
-    mutate(Island = factor(Island, levels = c("St Thomas", "St John", "St Croix")))
+    mutate(Island = factor(Island, levels = c("St Thomas", "St John", "St Croix")),
+           SY = as.factor(SY))
   
   
   
@@ -326,7 +328,7 @@ seedling_density <- function(regen, densio, breaks = NULL) {
     (y - min_h) / (max_h - min_h) * (max_m - min_m) + min_m
   }
   
-  ggplot(c, aes(x = Site, y = mean_site, fill = factor(SY))) + 
+  ggplot(c, aes(x = Site, y = mean_site, fill = SY)) + 
     geom_bar(stat = "identity", position = "dodge", width = 0.75) +
     geom_errorbar(aes(ymax = mean_site + count_SE, ymin = mean_site, color = SY), 
                   position = position_dodge(width = 0.75), width = 0.25, show.legend = FALSE) +
@@ -401,7 +403,8 @@ sapling_density <- function(regen, sapling, species, densio, breaks = NULL) {
     group_by(SY, Site, Species) %>% 
     summarise(mean_dens = mean(plot_dens, na.rm=TRUE), mean_dens_SE = standard_error(plot_dens), mean_ht = mean(plot_ht, na.rm=TRUE), .groups = "drop") %>% 
     left_join(site) %>% 
-    mutate(Island = factor(Island, levels = c("St Thomas", "St John", "St Croix")))
+    mutate(Island = factor(Island, levels = c("St Thomas", "St John", "St Croix")),
+           SY = as.factor(SY))
   
   
   height_rescale <- function(y) {
@@ -416,7 +419,7 @@ sapling_density <- function(regen, sapling, species, densio, breaks = NULL) {
   
   c %>% 
     filter(Species == species) %>% 
-    ggplot(aes(x = Site, y = mean_dens, fill = factor(SY))) + 
+    ggplot(aes(x = Site, y = mean_dens, fill = SY)) + 
     geom_bar(stat = "identity", position = "dodge", width = 0.75) +
     geom_errorbar(aes(ymax = mean_dens + mean_dens_SE, ymin = mean_dens, color = SY), 
                   position = position_dodge(width = 0.75), width = 0.25, show.legend = FALSE) +
@@ -516,18 +519,18 @@ water_qual_table <- function(YSI) {
   
   format_x <- a %>% 
     mutate(across(where(is.numeric), round, 1)) %>% 
-    mutate(mean_SPC = round(mean_SPC, digits = 0),
-           mean_SPC_SE = round(mean_SPC_SE, digits = 0),
+    mutate(mean_SAL = round(mean_SAL, digits = 0),
+           mean_SAL_SE = round(mean_SAL_SE, digits = 0),
            mean_TDS = round(mean_TDS, digits = 0),
            mean_TDS_SE = round(mean_TDS_SE, digits = 0)) %>%
     mutate(
       Depth = paste(mean_depth, "±", mean_depth_SE),
       Temp = paste(mean_temp, "±", mean_temp_SE),
       DO = paste(mean_DO, "±", mean_DO_SE),
-      SPC = paste(mean_SPC, "±", mean_SPC_SE),
+      SAL = paste(mean_SAL, "±", mean_SAL_SE),
       TDS = paste(mean_TDS, "±", mean_TDS_SE)
     ) %>% 
-    select(SY, Site, Depth, Temp, DO, SPC, TDS)
+    select(SY, Site, Depth, Temp, DO, SAL, TDS)
   
   # Table using gt
   table <- format_x %>% 
@@ -541,7 +544,7 @@ water_qual_table <- function(YSI) {
       Depth = md("Depth <br/> (cm)"),
       Temp = md("Temperature <br/> (&deg;C)"),
       DO = md("Dissolved Oxygen <br/> (mg/L)"),
-      SPC = md("Specific Conductance <br/> (\u00b5S/cm)"),
+      SAL = md("Salinity <br/> (ppt)"),
       TDS = md("Total Dissolved Solids <br/> (mg/L)")
     ) %>% 
     cols_align(align = "center", everything()) %>%
