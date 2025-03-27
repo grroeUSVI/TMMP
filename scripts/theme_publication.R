@@ -36,18 +36,18 @@ theme_Publication <- function(base_size=14, base_family="Calibri") {
 
 scale_fill_Publication <- function(...){
   library(scales)
-  discrete_scale("fill","Publication",manual_pal(values = c("#386cb0","#fdb462","#7fc97f","#ef3b2c","#662506","#a6cee3","#fb9a99","#984ea3","#ffff33")), ...)
+  discrete_scale(aesthetics = "fill",scale = "Publication",manual_pal(values = c("#386cb0","#fdb462","#7fc97f","#ef3b2c","#662506","#a6cee3","#fb9a99","#984ea3","#ffff33")), ...)
 
 }
 
 scale_fill_Publication_BW <- function(...){
   library(scales)
-  discrete_scale("fill","Publication",manual_pal(values = c("grey20", "grey40", "grey60","grey80","white")), ...)
+  discrete_scale(aesthetics = "fill",name = "Publication",manual_pal(values = c("grey20", "grey40", "grey60","grey80","white")), ...)
   
 }
 
 scale_color_Publication <- function(...){
   library(scales)
-  discrete_scale("colour","Publication",manual_pal(values = c("#386cb0","#fdb462","#7fc97f","#ef3b2c","#662506","#a6cee3","#fb9a99","#984ea3","#ffff33")), ...)
+  discrete_scale(aesthetics = "colour",name = "Publication",manual_pal(values = c("#386cb0","#fdb462","#7fc97f","#ef3b2c","#662506","#a6cee3","#fb9a99","#984ea3","#ffff33")), ...)
 
 }

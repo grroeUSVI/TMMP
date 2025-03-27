@@ -16,13 +16,13 @@ ggsave(filename =  paste(output_dir,"densiometer_figure.jpg"), plot = densiomete
 
 ## seedling density figures
 seedling_figure_nobreak <- seedling_density(regen = regen_data, densio = densiometer_data)
-seedling_figure_break <- seedling_density(regen = regen_data, densio = densiometer_data, breaks = 12)
+seedling_figure_break <- seedling_density(regen = regen_data, densio = densiometer_data, breaks = 15)
 ggsave(filename =  paste(output_dir,"seedling_figure_nobreak.jpg"), plot = seedling_figure_nobreak, width = 9.8, height = 7.5, dpi = 300, units = "in", device = "jpg")
 ggsave(filename =  paste(output_dir,"seedling_figure_break.jpg"), plot = seedling_figure_break, width = 9.8, height = 7.5, dpi = 300, units = "in", device = "jpg")
 
 ## seedling relative abundance table
-seedling_rel_abun_table <- seedling_rel_abundance_table(regen_data = regen_data)%>%
-  gtsave(filename =  paste(output_dir,"seedling_rel_abun_table.pdf"))
+seedling_density_table <- seedling_rel_abundance_table(regen_data = regen_data)%>%
+  gtsave(filename =  paste(output_dir,"seedling_density_table.pdf"))
 
 ## Sapling density figures
 rhma_density <- sapling_density(regen = regen_data, sapling = sapling_data, species = "RHMA", densio = densiometer_data)
