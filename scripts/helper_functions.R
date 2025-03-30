@@ -1,126 +1,74 @@
-library(dplyr)
-library(readxl)
-library(tidyr)
-library(purrr)
+library(tidyverse)
 library(gt)
-library(ggbreak)
-library(ggplot2)
+library(readxl)
 
 
-# calculate basal area 
-# DBH: field measurement (cm)
-# returns basal area in m^2/ha
-basal_area <- function(DBH) {
-  
-  x <- (pi*((DBH/100)/2)^2) / .01
-  return(x)
-}
+## Function parameters refer to the corresponding worksheet in the imported excel file
 
-# Function to calculate standard error
-standard_error <- function(x, na.rm = TRUE) {
-  if (na.rm) {
-    x <- na.omit(x)
-  }
-  sd_x <- sd(x)
-  n <- length(x)
-  se_x <- sd_x / sqrt(n)
-  return(se_x)
-}
 
-# Calculate mean +- SE basal area by year and site
-# Hard coded filters: red, white, black mangroves & Alive or Dying
-mean_basal_area <- function(tree_measurements) {
-  
-  a <- tree_measurements %>% 
-    filter(Species %in% c("RHMA", "AVGE", "LARA") & Mortality %in% c("Alive", "Dying")) %>% 
-    select(SY, Site, Plot, Species, DBH_cm) %>% 
-    mutate(basal_area = basal_area(DBH_cm)) %>% 
-    group_by(SY, Site, Plot) %>% 
-    summarise(basal_plot = sum(basal_area, na.rm = T), .groups = "drop") %>% 
-    group_by(SY, Site) %>% 
-    summarise(mean_basal_area = mean(basal_plot, na.rm = T), mean_basal_area_SE = standard_error(basal_plot), .groups = "drop") %>% 
-    mutate(across(.cols = everything(), \(x) replace_na(x, 0)))
-    
-  
-  return(a)
-  
-}
+################################################################################################
+## Table and Figure creation functions
+################################################################################################
 
-# Calculate % species contribution to mean basal area by year and site
-# Hard coded filters: red, white, black mangroves & Alive or Dead & Years 1,3
-spp_contibution <- function(tree_measurements) {
+
+# Creates a single figure showing size frequency distribution of DBH
+# Parameters: 
+# 1) tree_measurements dataframe
+# 2) site: Site/location for figure quoted (i.e "Brewers Bay")
+# 3) bin_size:  Size of bin you would like the data shown
+# Outputs a figure
+site_LF <- function(tree_measurements, site, bin_size) {
   
-  x <- tree_measurements %>%
-    filter(Species %in% c("RHMA", "AVGE", "LARA")) %>%
-    select(SY, Site, Plot, Species, DBH_cm) %>%
-    group_by(SY, Site, Plot, Species) %>%
-    summarise(basal_area_sum = sum(basal_area(DBH_cm), na.rm = T), .groups = "drop") %>% 
-    pivot_wider(names_from = Species, values_from = basal_area_sum, values_fill = 0) %>%
-    pivot_longer(cols = LARA:AVGE, names_to = "Species", values_to = "basal_area_sum") %>% 
-    group_by(SY, Site, Species) %>% 
-    summarise(mean_basal_area = mean(basal_area_sum), .groups = "drop") %>%
-    group_by(SY, Site) %>% 
-    mutate(contibution = (mean_basal_area / sum(mean_basal_area))*100) %>% 
-    ungroup() %>% 
-    pivot_wider(, id_cols = !mean_basal_area, names_from = Species, values_from = contibution)
+  a <- tree_measurements %>% filter(Site == site & DBH_cm >= 0 & Mortality != "NA") %>%  
+    mutate(Mortality = if_else(Mortality == "Dying", "Alive", Mortality)) %>% 
+    group_by(SY, DBH_cm, Mortality) %>% 
+    summarise(n = n(), .groups = "drop") %>%
+    group_by(SY) %>% 
+    mutate(freq = n / sum(n)) %>% 
+    ungroup()
   
-  return(x)
+  
+  bins <- seq(0, max(a$DBH_cm + bin_size), by = bin_size)
+  
+  
+  b <- a %>% 
+    group_by(SY, Mortality) %>% 
+    nest() %>% 
+    mutate(LF = map(data, ~ .x %>%
+                      data.frame() %>% 
+                      mutate(Bin = cut(DBH_cm, breaks = bins, right = FALSE)) %>%
+                      group_by(Bin) %>%
+                      summarise(total_freq = sum(freq, na.rm = TRUE)))) %>% 
+    unnest(LF) %>% 
+    ungroup()
+  
+  
+  br <- unique(b$Bin)
+  la <- labeler(bin_num = length(unique(b$Bin)) , bin_size = bin_size)
+  
+  ggplot(b, aes(x=Bin, y=total_freq, fill=Mortality)) +
+    geom_bar(stat="identity", position = "stack", width = .9, color="black", linewidth=.5) +
+    scale_x_discrete(breaks = br,
+                     labels = la[1:(length(unique(b$Bin)))],
+                     limits = factor(br)) +
+    scale_fill_manual(values = c("Alive" = "darkolivegreen3", "Dead" = "burlywood4")) +
+    xlab(label = "DBH Size Class (cm)") + 
+    ylab(label = "Relative Frequency") + 
+    ggtitle(site) +
+    theme_Publication() +
+    facet_wrap(~SY)
   
 }
 
-# Calculate mean tree height(m) by year and site
-# Hard coded filters: red, white, black, NA, UNK mangroves & Alive or Dead & Years 1,3
-mean_tree_height <- function(tree_heights) {
-  
-  a <- tree_heights %>% 
-    filter(Species %in% c("RHMA", "AVGE", "LARA", NA, "UNK")) %>% 
-    select(SY, Site, Plot, Species, Tree_Height_m) %>% 
-    group_by(SY, Site, Plot) %>% 
-    summarise(mean_height_plot = mean(Tree_Height_m, na.rm = T), .groups = "drop") %>% 
-    group_by(SY, Site) %>% 
-    summarise(mean_height = mean(mean_height_plot, na.rm = T), mean_height_SE = standard_error(mean_height_plot), .groups = "drop") %>% 
-    mutate(across(.cols = everything(), \(x) replace_na(x, 0)))
-  
-  return(a)
-  
-}
-
-mean_stem_density <- function(tree_measurements) {
-  
-  a <- tree_measurements %>% 
-    filter(Species %in% c("RHMA", "AVGE", "LARA") & Mortality %in% c("Alive", "Dying")) %>% 
-    select(SY, Site, Plot, Species, DBH_cm) %>% 
-    group_by(SY, Site, Plot) %>% 
-    summarise(stem_plot_density = (length(DBH_cm))/.01, .groups = "drop") %>% 
-    group_by(SY, Site) %>% 
-    summarise(mean_stem_density = mean(stem_plot_density, na.rm = T), mean_stem_density_SE = standard_error(stem_plot_density), .groups = "drop")
-  
-  return(a)
-}
-
-mean_water_quality <- function(YSI) {
-  
-  a <- YSI %>% 
-    select(SY, Site, Plot, Water_depth, Temp, DO_mg_L, Salinity_ppt, TDS) %>% 
-    group_by(SY, Site, Plot) %>% 
-    summarise(plot_depth = mean(Water_depth, na.rm = TRUE),
-              plot_temp = mean(Temp, na.rm = TRUE),
-              plot_DO = mean(DO_mg_L, na.rm = TRUE),
-              plot_SAL = mean(Salinity_ppt, na.rm = TRUE),
-              plot_TDS = mean(TDS, na.rm = TRUE),
-              .groups = "drop") %>% 
-    group_by(SY, Site) %>% 
-    summarise(mean_depth = mean(plot_depth, na.rm = TRUE), mean_depth_SE = standard_error(plot_depth),
-              mean_temp = mean(plot_temp, na.rm = TRUE), mean_temp_SE = standard_error(plot_temp),
-              mean_DO = mean(plot_DO, na.rm = TRUE), mean_DO_SE = standard_error(plot_DO),
-              mean_SAL = mean(plot_SAL, na.rm = TRUE), mean_SAL_SE = standard_error(plot_SAL),
-              mean_TDS = mean(plot_TDS, na.rm = TRUE), mean_TDS_SE = standard_error(plot_TDS),
-              .groups = "drop")
-  
-  return(a)
-  
-}
-
+# Creates a table of tree measurement metrics for each Site and Year including:
+# 1) mean basal area
+# 2) species contribution
+# 3) mean tree height
+# 4) mean stem density
+# Parameters:
+# 1) tree_measurements dataframe
+# 2) tree_heights dataframe
+# Outputs a table
 create_tree_measurement_table <- function(tree_measurements, tree_heights) {
   
   a <- mean_basal_area(tree_measurements)
@@ -183,70 +131,10 @@ create_tree_measurement_table <- function(tree_measurements, tree_heights) {
   
 }
 
-percent_basal_area_change <- function(tree_measurements) {
-  
-  a <- mean_basal_area(tree_measurements) %>% 
-    select(SY, Site, mean_basal_area) %>%
-    pivot_wider(names_from = SY, values_from = mean_basal_area, values_fill = 0) %>%
-    mutate(percentage_change = ((`2024` - `2022`) / `2022` * 100))
-  
-  return(a)
-}
-
-site_coordinates <- function(Coordinates) {
-  
-  a <- Coordinates %>% 
-    group_by(Island, Site) %>% 
-    summarise(Typology = first(`Forest type`),Latitude = mean(Latitude), Longitude = mean(Longitude))
-  
-  return(a)
-  
-}
-
-site_LF <- function(tree_measurements, site, bin_size) {
-  
-  a <- tree_measurements %>% filter(Site == site & DBH_cm >= 0 & Mortality != "NA") %>%  
-    mutate(Mortality = if_else(Mortality == "Dying", "Alive", Mortality)) %>% 
-    group_by(SY, DBH_cm, Mortality) %>% 
-    summarise(n = n(), .groups = "drop") %>%
-    group_by(SY) %>% 
-    mutate(freq = n / sum(n)) %>% 
-    ungroup()
-
-  
-  bins <- seq(0, max(a$DBH_cm + bin_size), by = bin_size)
-  
-  
-  b <- a %>% 
-    group_by(SY, Mortality) %>% 
-    nest() %>% 
-    mutate(LF = map(data, ~ .x %>%
-                      data.frame() %>% 
-                      mutate(Bin = cut(DBH_cm, breaks = bins, right = FALSE)) %>%
-                      group_by(Bin) %>%
-                      summarise(total_freq = sum(freq, na.rm = TRUE)))) %>% 
-    unnest(LF) %>% 
-    ungroup()
-  
-  
-  br <- unique(b$Bin)
-  la <- labeler(bin_num = length(unique(b$Bin)) , bin_size = bin_size)
-  
-  ggplot(b, aes(x=Bin, y=total_freq, fill=Mortality)) +
-    geom_bar(stat="identity", position = "stack", width = .9, color="black", linewidth=.5) +
-    scale_x_discrete(breaks = br,
-                     labels = la[1:(length(unique(b$Bin)))],
-                     limits = factor(br)) +
-    scale_fill_manual(values = c("Alive" = "darkolivegreen3", "Dead" = "burlywood4")) +
-    xlab(label = "DBH Size Class (cm)") + 
-    ylab(label = "Relative Frequency") + 
-    ggtitle(site) +
-    theme_Publication() +
-    facet_wrap(~SY)
-  
-}
-
-# Diverging bar chart with open plotted as line over top
+# Create a figure of diverging bar chart by site with open plotted as line over top
+# Parameters:
+# 1) densiometer_data
+# Outputs a figure
 densiometer_figure <- function(densiometer_data) {
   a <- densiometer_data %>% select(Site, Plot, SY, starts_with("Calc"))
   b <- df_long <- a %>%
@@ -282,7 +170,13 @@ densiometer_figure <- function(densiometer_data) {
     scale_color_manual(values = c("Open Area" = "deepskyblue"))
 }
 
-# Seedling density +-SE by Site/Year grouped by Island with mean height as second axis
+# Creates a figure of seedling density +-SE by Site/Year grouped by Island with mean height as second axis
+# All mangrove species combined
+# Parameters:
+# 1) regen: regeneration_data dataframe
+# 2) densio: densiometer dataframe
+# 3) breaks: A break/cut point for the Y-axis, default is no breaks set 
+# Outputs a figure
 seedling_density <- function(regen, densio, breaks = NULL) {
   
   site <- densio %>% 
@@ -363,7 +257,13 @@ seedling_density <- function(regen, densio, breaks = NULL) {
     facet_grid(cols=vars(Island),scales="free_x",space="free_x",switch="x")
 }
 
-# Sapling density +-SE by Species/Site/Year grouped by Island with mean height as second axis
+# Creates a figure of sapling density +-SE by Species/Site/Year grouped by Island with mean height as second axis
+# Parameters:
+# 1) regen: regeneration_data dataframe
+# 2) sapling: sapling measurements dataframe
+# 3) species: species to be plotted ("RHMA", "AVGE", "LARA")
+# 4) densio: densiometer dataframe (this is only to grab the Island information for each site)
+# 5) breaks: A break/cut point for the Y-axis, default is no breaks set 
 sapling_density <- function(regen, sapling, species, densio, breaks = NULL) {
 
   pretty_name <- function(species) {
@@ -458,6 +358,10 @@ sapling_density <- function(regen, sapling, species, densio, breaks = NULL) {
 
 }
 
+# Creates a table of seedling density by Site/Year and Species
+# Parameters:
+# 1) regen_data: regeneration dataframe
+# Outputs a table
 seedling_rel_abundance_table <- function(regen_data) {
   
   a <- regen_data %>% 
@@ -515,6 +419,15 @@ seedling_rel_abundance_table <- function(regen_data) {
   
 }
 
+# Creates a table of water quality metrics for each Site and Year  including:
+# 1) Depth
+# 2) Temperature
+# 3) Dissolved Oxygen
+# 4) Salinity
+# 5) Total dissolved solids
+# Parameters:
+# 1) YSI: YSI Water Quality dataframe
+# Outputs a table
 water_qual_table <- function(YSI) {
   
   a <- mean_water_quality(YSI)
@@ -571,4 +484,161 @@ water_qual_table <- function(YSI) {
   
   return(table)
   
+}
+
+################################################################################################
+## Dataframe functions
+################################################################################################
+
+# Calculates site coordinates from the 3 plots 
+# Outputs a dataframe
+site_coordinates <- function(Coordinates) {
+  
+  a <- Coordinates %>% 
+    group_by(Island, Site) %>% 
+    summarise(Typology = first(`Forest type`),Latitude = mean(Latitude), Longitude = mean(Longitude))
+  
+  return(a)
+  
+}
+
+# Calculate mean +- SE basal area by year and site
+# Hard coded filters: red, white, black mangroves & Alive or Dying
+# Outputs a dataframe
+mean_basal_area <- function(tree_measurements) {
+  
+  a <- tree_measurements %>% 
+    filter(Species %in% c("RHMA", "AVGE", "LARA") & Mortality %in% c("Alive", "Dying")) %>% 
+    select(SY, Site, Plot, Species, DBH_cm) %>% 
+    mutate(basal_area = basal_area(DBH_cm)) %>% 
+    group_by(SY, Site, Plot) %>% 
+    summarise(basal_plot = sum(basal_area, na.rm = T), .groups = "drop") %>% 
+    group_by(SY, Site) %>% 
+    summarise(mean_basal_area = mean(basal_plot, na.rm = T), mean_basal_area_SE = standard_error(basal_plot), .groups = "drop") %>% 
+    mutate(across(.cols = everything(), \(x) replace_na(x, 0)))
+  
+  
+  return(a)
+  
+}
+
+# Calculate % species contribution to mean basal area by year and site
+# Hard coded filters: red, white, black mangroves & Alive or Dead & Years 1,3
+# Outputs a dataframe
+spp_contibution <- function(tree_measurements) {
+  
+  x <- tree_measurements %>%
+    filter(Species %in% c("RHMA", "AVGE", "LARA")) %>%
+    select(SY, Site, Plot, Species, DBH_cm) %>%
+    group_by(SY, Site, Plot, Species) %>%
+    summarise(basal_area_sum = sum(basal_area(DBH_cm), na.rm = T), .groups = "drop") %>% 
+    pivot_wider(names_from = Species, values_from = basal_area_sum, values_fill = 0) %>%
+    pivot_longer(cols = LARA:AVGE, names_to = "Species", values_to = "basal_area_sum") %>% 
+    group_by(SY, Site, Species) %>% 
+    summarise(mean_basal_area = mean(basal_area_sum), .groups = "drop") %>%
+    group_by(SY, Site) %>% 
+    mutate(contibution = (mean_basal_area / sum(mean_basal_area))*100) %>% 
+    ungroup() %>% 
+    pivot_wider(, id_cols = !mean_basal_area, names_from = Species, values_from = contibution)
+  
+  return(x)
+  
+}
+
+# Calculate mean stem density by site and year for all mangrove species combined
+# Hard coded filters: red, white, black mangroves & Alive or Dead
+# outputs a dataframe
+mean_stem_density <- function(tree_measurements) {
+  
+  a <- tree_measurements %>% 
+    filter(Species %in% c("RHMA", "AVGE", "LARA") & Mortality %in% c("Alive", "Dying")) %>% 
+    select(SY, Site, Plot, Species, DBH_cm) %>% 
+    group_by(SY, Site, Plot) %>% 
+    summarise(stem_plot_density = (length(DBH_cm))/.01, .groups = "drop") %>% 
+    group_by(SY, Site) %>% 
+    summarise(mean_stem_density = mean(stem_plot_density, na.rm = T), mean_stem_density_SE = standard_error(stem_plot_density), .groups = "drop")
+  
+  return(a)
+}
+
+# Calculate mean tree height(m) by year and site
+# Hard coded filters: red, white, black, NA, UNK mangroves & Alive or Dead
+# Outputs a dataframe
+mean_tree_height <- function(tree_heights) {
+  
+  a <- tree_heights %>% 
+    filter(Species %in% c("RHMA", "AVGE", "LARA", NA, "UNK")) %>% 
+    select(SY, Site, Plot, Species, Tree_Height_m) %>% 
+    group_by(SY, Site, Plot) %>% 
+    summarise(mean_height_plot = mean(Tree_Height_m, na.rm = T), .groups = "drop") %>% 
+    group_by(SY, Site) %>% 
+    summarise(mean_height = mean(mean_height_plot, na.rm = T), mean_height_SE = standard_error(mean_height_plot), .groups = "drop") %>% 
+    mutate(across(.cols = everything(), \(x) replace_na(x, 0)))
+  
+  return(a)
+  
+}
+
+# Calculates the percentage mean basal change from 2022 to 2024 for each site
+# Hardcoded: The percent_change field uses hard coded years (as strings), 2022 and 2024  
+# Outputs a datframe
+percent_basal_area_change <- function(tree_measurements) {
+  
+  a <- mean_basal_area(tree_measurements) %>% 
+    select(SY, Site, mean_basal_area) %>%
+    pivot_wider(names_from = SY, values_from = mean_basal_area, values_fill = 0) %>%
+    mutate(percentage_change = ((`2024` - `2022`) / `2022` * 100))
+  
+  return(a)
+}
+
+# Calculates mean water quality metrics for each site and year
+# Outputs a dataframe
+mean_water_quality <- function(YSI) {
+  
+  a <- YSI %>% 
+    select(SY, Site, Plot, Water_depth, Temp, DO_mg_L, Salinity_ppt, TDS) %>% 
+    group_by(SY, Site, Plot) %>% 
+    summarise(plot_depth = mean(Water_depth, na.rm = TRUE),
+              plot_temp = mean(Temp, na.rm = TRUE),
+              plot_DO = mean(DO_mg_L, na.rm = TRUE),
+              plot_SAL = mean(Salinity_ppt, na.rm = TRUE),
+              plot_TDS = mean(TDS, na.rm = TRUE),
+              .groups = "drop") %>% 
+    group_by(SY, Site) %>% 
+    summarise(mean_depth = mean(plot_depth, na.rm = TRUE), mean_depth_SE = standard_error(plot_depth),
+              mean_temp = mean(plot_temp, na.rm = TRUE), mean_temp_SE = standard_error(plot_temp),
+              mean_DO = mean(plot_DO, na.rm = TRUE), mean_DO_SE = standard_error(plot_DO),
+              mean_SAL = mean(plot_SAL, na.rm = TRUE), mean_SAL_SE = standard_error(plot_SAL),
+              mean_TDS = mean(plot_TDS, na.rm = TRUE), mean_TDS_SE = standard_error(plot_TDS),
+              .groups = "drop")
+  
+  return(a)
+  
+}
+
+
+################################################################################################
+## Helper functions
+################################################################################################
+
+
+# calculate basal area 
+# DBH: field measurement (cm)
+# returns basal area in m^2/ha
+basal_area <- function(DBH) {
+  
+  x <- (pi*((DBH/100)/2)^2) / .01
+  return(x)
+}
+
+# Function to calculate standard error
+standard_error <- function(x, na.rm = TRUE) {
+  if (na.rm) {
+    x <- na.omit(x)
+  }
+  sd_x <- sd(x)
+  n <- length(x)
+  se_x <- sd_x / sqrt(n)
+  return(se_x)
 }
