@@ -36,4 +36,10 @@ ggsave(filename =  paste(output_dir,"lara_density.jpg"), plot = lara_density, wi
 water_quality_table <- water_qual_table(YSI = YSI_data) %>%
   gtsave(filename =  paste(output_dir,"water_quality_table.pdf"))
 
+for (site in unique(tree_measurements$Site)) {
+  
+  p <- site_LF(tree_measurements = tree_measurements, site = site, bin_size = 3)
+  ggsave(filename =  paste(output_dir, site,"_size_frequency.jpg"), plot = p, width = 9.8, height = 7.5, dpi = 300, units = "in", device = "jpg")
+}
+
 }
