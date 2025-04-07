@@ -1,0 +1,172 @@
+---
+title: "TMMP"
+author: "Grimes Lab, University of the Virgin Islands"
+format: 
+  dashboard:
+    logo: GRROE_Logo.jpeg
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE, echo = F)
+# Needed Libraries
+library(tidyverse)
+library(gt)
+library(readxl)
+library(webshot2)
+library(ggbreak)
+
+# Source Plotting Functions
+source("../scripts/TMMP_functions.R", local = knitr::knit_global())
+source("../scripts/labeler.R", local = knitr::knit_global())
+source("../scripts/theme_publication.R", local = knitr::knit_global())
+
+Mangrove_Input_Excel_File <- "../import_data/QA_QC_TMMP_March25_2025.xlsx"
+
+tree_measurements <- read_xlsx(Mangrove_Input_Excel_File, sheet = "Tree measurements")
+tree_heights <- read_xlsx(Mangrove_Input_Excel_File, sheet = "Tree heights")
+site_coords <- read_xlsx(Mangrove_Input_Excel_File, sheet = "Coordinates")
+densiometer_data <- read_xlsx(Mangrove_Input_Excel_File, sheet = "Densiometer data")
+regen_data <- read_xlsx(Mangrove_Input_Excel_File, sheet = "Regeneration")
+sapling_data <- read_xlsx(Mangrove_Input_Excel_File, sheet = "Sapling")
+YSI_data <- read_xlsx(Mangrove_Input_Excel_File, sheet = "YSI Water Quality data")
+```
+
+# **Site Map**
+
+## Row {height=60%}
+
+### Column {width=50%}
+
+::: {.card title="General Site Map"}
+![](images/General Site Map-03.jpg)
+:::
+
+### Column {width=50%}
+
+::: {.card title="Percent Basal Change"}
+![](images/PercentChange-03.jpg)
+:::
+
+# **Density**
+
+## Row {height=40%}
+
+### Column {width=50%}
+
+```{r}
+#| title: Seedling Density
+#| padding: 2px
+ 
+seedling_density(regen = regen_data, densio = densiometer_data, breaks = 15)
+```
+
+### Column {width=50%} {.tabset}
+
+```{r}
+#| title: R. mangle Density
+sapling_density(regen =  regen_data, sapling = sapling_data, species = "RHMA", densio = densiometer_data)
+```
+
+```{r}
+#| title: A. germinians Density
+sapling_density(regen =  regen_data, sapling = sapling_data, species = "AVGE", densio = densiometer_data)
+```
+
+```{r}
+#| title: L. racemosa Density
+sapling_density(regen =  regen_data, sapling = sapling_data, species = "LARA", densio = densiometer_data)
+```
+
+# **DBH Size Distributions**
+
+## Column {width=80%} {.tabset}
+
+#### St. Thomas {.tabset}
+
+```{r results='asis', echo=FALSE, fig.width=9.8, fig.height=7.5}
+
+island <- densiometer_data %>% 
+  filter(Island == "St Thomas") %>% 
+  reframe(Site = unique(Site))
+
+for(i in island$Site) {
+  
+  cat("  \n#####",  i, "\n")
+  
+  print(site_LF(tree_measurements = tree_measurements, site = i, bin_size = 3))
+  
+  cat("  \n")
+}
+```
+
+#### St. John {.tabset}
+
+```{r results='asis', echo=FALSE, fig.width=9.8, fig.height=7.5}
+
+island <- densiometer_data %>% 
+  filter(Island =="St John") %>% 
+  reframe(Site = unique(Site))
+
+for(i in island$Site) {
+  
+  cat("  \n#####",  i, "\n")
+  
+  print(site_LF(tree_measurements = tree_measurements, site = i, bin_size = 3))
+  
+  cat("  \n")
+}
+```
+
+#### St. Croix {.tabset}
+
+```{r results='asis', echo=FALSE, fig.width=9.8, fig.height=7.5}
+
+island <- densiometer_data %>% 
+  filter(Island =="St Croix") %>% 
+  reframe(Site = unique(Site))
+
+for(i in island$Site) {
+  
+  cat("  \n#####",  i, "\n")
+  
+  print(site_LF(tree_measurements = tree_measurements, site = i, bin_size = 3))
+  
+  cat("  \n")
+}
+```
+
+
+# **Densiometer**
+
+## Column {width=80%}
+
+```{r}
+#| title: Densiometer Data
+densiometer_figure(densiometer_data = densiometer_data)
+```
+
+# **Appendix**
+
+## Column {width=80%} {.tabset}
+
+```{r}
+#| title: Tree Measurements
+create_tree_measurement_table(tree_measurements = tree_measurements, tree_heights = tree_heights) %>% 
+  tab_options(table.width = "75%") %>% 
+    opt_table_font(size = "18px")
+```
+
+```{r}
+#| title: Seedling Density
+seedling_rel_abundance_table(regen_data = regen_data) %>% 
+  tab_options(table.width = "75%") %>% 
+    opt_table_font(size = "18px")
+```
+
+```{r}
+#| title: Water Quality
+water_qual_table(YSI = YSI_data) %>% 
+  tab_options(table.width = "75%") %>% 
+  opt_table_font(size = "18px")
+```
+
