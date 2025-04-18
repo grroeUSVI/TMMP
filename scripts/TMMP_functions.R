@@ -592,6 +592,19 @@ percent_basal_area_change <- function(tree_measurements) {
   return(a)
 }
 
+# Calculates the average basal change from 2022 to 2024 for each site in terms of m2
+# Hardcoded: The percent_change field uses hard coded years (as strings), 2022 and 2024  
+# Outputs a datframe
+total_basal_area_change <- function(tree_measurements) {
+  
+  a <- mean_basal_area(tree_measurements) %>% 
+    select(SY, Site, mean_basal_area) %>%
+    pivot_wider(names_from = SY, values_from = mean_basal_area, values_fill = 0) %>%
+    mutate(total_change = (`2024` - `2022`))
+  
+  return(a)
+}
+
 # Calculates mean water quality metrics for each site and year
 # Outputs a dataframe
 mean_water_quality <- function(YSI) {
