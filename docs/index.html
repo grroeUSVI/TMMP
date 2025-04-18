@@ -42,6 +42,30 @@ ul.task-list li input[type="checkbox"] {
 <script src="index_files/libs/quarto-dashboard/web-components.js" type="module"></script>
 <script src="index_files/libs/quarto-dashboard/components.js"></script>
 <link href="index_files/libs/quarto-dashboard/datatables.min.css" rel="stylesheet" kdttablesentinel="true">
+<link href="index_files/libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+
+<script src="index_files/libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+
+<script src="index_files/libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+
+<link href="index_files/libs/leaflet-1.3.1/leaflet.css" rel="stylesheet">
+
+<script src="index_files/libs/leaflet-1.3.1/leaflet.js"></script>
+
+<link href="index_files/libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet">
+
+<script src="index_files/libs/proj4-2.6.2/proj4.min.js"></script>
+
+<script src="index_files/libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+
+<link href="index_files/libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet">
+
+<script src="index_files/libs/leaflet-binding-2.2.2/leaflet.js"></script>
+
+<script src="index_files/libs/leaflet-providers-2.0.0/leaflet-providers_2.0.0.js"></script>
+
+<script src="index_files/libs/leaflet-providers-plugin-2.2.2/leaflet-providers-plugin.js"></script>
+
 
 
 </head>
@@ -64,13 +88,30 @@ ul.task-list li input[type="checkbox"] {
         <div class="navbar-author">Grimes Lab, University of the Virgin Islands</div>
       </div>
     </div>
-<div id="dashboard-collapse" class="navbar-collapse collapse"><ul class="navbar-nav navbar-nav-scroll me-auto" role="tablist"><li class="nav-item" role="presentation"><a id="tab-site-map" class="nav-link active" data-bs-toggle="tab" role="tab" data-bs-target="#site-map" data-scrolling="false" href="#site-map" aria-controls="site-map" aria-selected="true"><span class="nav-link-text">Site Map</span></a></li><li class="nav-item" role="presentation"><a id="tab-density" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#density" data-scrolling="false" href="#density" aria-controls="density" aria-selected="false"><span class="nav-link-text">Density</span></a></li><li class="nav-item" role="presentation"><a id="tab-dbh-size-distributions" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#dbh-size-distributions" data-scrolling="false" href="#dbh-size-distributions" aria-controls="dbh-size-distributions" aria-selected="false"><span class="nav-link-text">DBH Size Distributions</span></a></li><li class="nav-item" role="presentation"><a id="tab-densiometer" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#densiometer" data-scrolling="false" href="#densiometer" aria-controls="densiometer" aria-selected="false"><span class="nav-link-text">Densiometer</span></a></li><li class="nav-item" role="presentation"><a id="tab-appendix" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#appendix" data-scrolling="false" href="#appendix" aria-controls="appendix" aria-selected="false"><span class="nav-link-text">Appendix</span></a></li></ul></div></div>
+<div id="dashboard-collapse" class="navbar-collapse collapse"><ul class="navbar-nav navbar-nav-scroll me-auto" role="tablist"><li class="nav-item" role="presentation"><a id="tab-leaflet-map" class="nav-link active" data-bs-toggle="tab" role="tab" data-bs-target="#leaflet-map" data-scrolling="false" href="#leaflet-map" aria-controls="leaflet-map" aria-selected="true"><span class="nav-link-text">Leaflet Map</span></a></li><li class="nav-item" role="presentation"><a id="tab-site-map" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#site-map" data-scrolling="false" href="#site-map" aria-controls="site-map" aria-selected="false"><span class="nav-link-text">Site Map</span></a></li><li class="nav-item" role="presentation"><a id="tab-density" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#density" data-scrolling="false" href="#density" aria-controls="density" aria-selected="false"><span class="nav-link-text">Density</span></a></li><li class="nav-item" role="presentation"><a id="tab-dbh-size-distributions" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#dbh-size-distributions" data-scrolling="false" href="#dbh-size-distributions" aria-controls="dbh-size-distributions" aria-selected="false"><span class="nav-link-text">DBH Size Distributions</span></a></li><li class="nav-item" role="presentation"><a id="tab-densiometer" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#densiometer" data-scrolling="false" href="#densiometer" aria-controls="densiometer" aria-selected="false"><span class="nav-link-text">Densiometer</span></a></li><li class="nav-item" role="presentation"><a id="tab-appendix" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#appendix" data-scrolling="false" href="#appendix" aria-controls="appendix" aria-selected="false"><span class="nav-link-text">Appendix</span></a></li></ul></div></div>
 </nav>
 </header>
 <div class="page-layout-custom quarto-dashboard-content bslib-gap-spacing html-fill-container bslib-page-fill quarto-dashboard-pages">  
 
 <div class="bslib-grid-item html-fill-item tab-content bslib-grid" data-layout="fill" style="display: grid; grid-template-rows: minmax(3em, 1fr); grid-auto-columns: minmax(0, 1fr);">
-<div id="site-map" class="dashboard-page tab-pane show active html-fill-item html-fill-container" data-orientation="rows" aria-labelledby="tab-site-map">
+<div id="leaflet-map" class="dashboard-page tab-pane show active html-fill-item html-fill-container" data-orientation="rows" aria-labelledby="tab-leaflet-map">
+<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-rows: minmax(3em, 1fr); grid-auto-columns: minmax(0, 1fr);">
+<div class="card cell html-fill-item html-fill-container bslib-card" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
+<div class="card-body html-fill-item html-fill-container">
+<div class="cell-output-display html-fill-item html-fill-container">
+<div class="leaflet html-widget html-fill-item html-fill-container" id="htmlwidget-881c84815ada20e75ca9" style="width:100%;height:406px;"></div>
+<script type="application/json" data-for="htmlwidget-881c84815ada20e75ca9">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"https://openstreetmap.org/copyright/\">OpenStreetMap<\/a>,  <a href=\"https://opendatacommons.org/licenses/odbl/\">ODbL<\/a>"}]},{"method":"addCircles","args":[[18.33878666666667,18.31985666666667,18.36447,17.69650666666667,18.32017333333333,18.36154666666667,18.35928666666667,18.36657333333333,18.35195666666667,18.35627666666667,18.32172333333333,18.31325,18.31273666666667,17.779,17.75873,18.32745666666667,18.32276,18.35049333333333,17.72612333333333],[-64.97511,-64.86484,-64.74220666666666,-64.76514,-64.72448333333334,-64.92204666666666,-64.89387666666667,-64.73584,-64.99677,-64.69066333333333,-64.74314333333334,-64.88122,-64.87623000000001,-64.75135,-64.66464000000001,-64.79294666666667,-64.85383333333333,-64.6884,-64.65419333333334],[958.9376439997774,715.4401801627682,686.8011073733784,622.7833030748525,426.3159525009808,1364.863400183783,770.7739155084251,456.9209554331709,499.5759296872862,454.8219788414912,497.3126281648698,624.44185782893,743.3046147435995,574.6383956585889,638.043589389665,869.8479668301962,491.9379325482461,534.5811258299105,375],null,"Total Change",{"interactive":true,"className":"","stroke":true,"color":"black","weight":5,"opacity":0.5,"fill":true,"fillColor":["#E6E600","#E6E600","#FF0000","#E6E600","#FF0000","#E6E600","#E6E600","#E6E600","#E6E600","#E6E600","#E6E600","#E6E600","#E6E600","#E6E600","#E6E600","#E6E600","#E6E600","#FF0000","#FF0000"],"fillOpacity":0.9},["<strong>Site:<\/strong> Brewers Bay<br><strong>Change:<\/strong> 7.79","<strong>Site:<\/strong> Compass Point<br><strong>Change:<\/strong> 4.54","<strong>Site:<\/strong> Francis Bay<br><strong>Change:<\/strong> -4.16","<strong>Site:<\/strong> Krause Lagoon<br><strong>Change:<\/strong> 3.3","<strong>Site:<\/strong> Lameshur Bay<br><strong>Change:<\/strong> -0.68","<strong>Site:<\/strong> Magens Bay<br><strong>Change:<\/strong> 13.2","<strong>Site:<\/strong> Mandahl Bay<br><strong>Change:<\/strong> 5.28","<strong>Site:<\/strong> Mary Creek<br><strong>Change:<\/strong> 1.09","<strong>Site:<\/strong> Perseverance Bay<br><strong>Change:<\/strong> 1.66","<strong>Site:<\/strong> Princess Bay<br><strong>Change:<\/strong> 1.06","<strong>Site:<\/strong> Reef Bay<br><strong>Change:<\/strong> 1.63","<strong>Site:<\/strong> STEER Basin<br><strong>Change:<\/strong> 3.33","<strong>Site:<\/strong> STEER Fringe<br><strong>Change:<\/strong> 4.91","<strong>Site:<\/strong> Salt River<br><strong>Change:<\/strong> 2.66","<strong>Site:<\/strong> Southgate<br><strong>Change:<\/strong> 3.51","<strong>Site:<\/strong> Turner Bay<br><strong>Change:<\/strong> 6.6","<strong>Site:<\/strong> Vessup Bay<br><strong>Change:<\/strong> 1.56","<strong>Site:<\/strong> Water Creek<br><strong>Change:<\/strong> -2.13","<strong>Site:<\/strong> Great Pond<br><strong>Change:<\/strong> 0"],null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null,null]},{"method":"addCircleMarkers","args":[[18.33878666666667,18.31985666666667,18.36447,17.69650666666667,18.32017333333333,18.36154666666667,18.35928666666667,18.36657333333333,18.35195666666667,18.35627666666667,18.32172333333333,18.31325,18.31273666666667,17.779,17.75873,18.32745666666667,18.32276,18.35049333333333,17.72612333333333],[-64.97511,-64.86484,-64.74220666666666,-64.76514,-64.72448333333334,-64.92204666666666,-64.89387666666667,-64.73584,-64.99677,-64.69066333333333,-64.74314333333334,-64.88122,-64.87623000000001,-64.75135,-64.66464000000001,-64.79294666666667,-64.85383333333333,-64.6884,-64.65419333333334],10,null,"Typology",{"interactive":true,"className":"","stroke":true,"color":["#FFA500","#0000FF","#0000FF","#FFA500","#0000FF","#000000","#FFA500","#FFA500","#0000FF","#FFA500","#0000FF","#000000","#FFA500","#FFA500","#0000FF","#FFA500","#FFA500","#FFA500","#0000FF"],"weight":1,"opacity":0.5,"fill":true,"fillColor":["#FFA500","#0000FF","#0000FF","#FFA500","#0000FF","#000000","#FFA500","#FFA500","#0000FF","#FFA500","#0000FF","#000000","#FFA500","#FFA500","#0000FF","#FFA500","#FFA500","#FFA500","#0000FF"],"fillOpacity":0.9},null,null,["<strong>Site:<\/strong> Brewers Bay<br><strong>Typology:<\/strong> Fringe","<strong>Site:<\/strong> Compass Point<br><strong>Typology:<\/strong> Salt Pond","<strong>Site:<\/strong> Francis Bay<br><strong>Typology:<\/strong> Salt Pond","<strong>Site:<\/strong> Krause Lagoon<br><strong>Typology:<\/strong> Fringe","<strong>Site:<\/strong> Lameshur Bay<br><strong>Typology:<\/strong> Salt Pond","<strong>Site:<\/strong> Magens Bay<br><strong>Typology:<\/strong> Basin","<strong>Site:<\/strong> Mandahl Bay<br><strong>Typology:<\/strong> Fringe","<strong>Site:<\/strong> Mary Creek<br><strong>Typology:<\/strong> Fringe","<strong>Site:<\/strong> Perseverance Bay<br><strong>Typology:<\/strong> Salt Pond","<strong>Site:<\/strong> Princess Bay<br><strong>Typology:<\/strong> Fringe","<strong>Site:<\/strong> Reef Bay<br><strong>Typology:<\/strong> Salt Pond","<strong>Site:<\/strong> STEER Basin<br><strong>Typology:<\/strong> Basin","<strong>Site:<\/strong> STEER Fringe<br><strong>Typology:<\/strong> Fringe","<strong>Site:<\/strong> Salt River<br><strong>Typology:<\/strong> Fringe","<strong>Site:<\/strong> Southgate<br><strong>Typology:<\/strong> Salt Pond","<strong>Site:<\/strong> Turner Bay<br><strong>Typology:<\/strong> Fringe","<strong>Site:<\/strong> Vessup Bay<br><strong>Typology:<\/strong> Fringe","<strong>Site:<\/strong> Water Creek<br><strong>Typology:<\/strong> Fringe","<strong>Site:<\/strong> Great Pond<br><strong>Typology:<\/strong> Salt Pond"],null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addMarkers","args":[[18.33878666666667,18.31985666666667,18.36447,17.69650666666667,18.32017333333333,18.36154666666667,18.35928666666667,18.36657333333333,18.35195666666667,18.35627666666667,18.32172333333333,18.31325,18.31273666666667,17.779,17.75873,18.32745666666667,18.32276,18.35049333333333,17.72612333333333],[-64.97511,-64.86484,-64.74220666666666,-64.76514,-64.72448333333334,-64.92204666666666,-64.89387666666667,-64.73584,-64.99677,-64.69066333333333,-64.74314333333334,-64.88122,-64.87623000000001,-64.75135,-64.66464000000001,-64.79294666666667,-64.85383333333333,-64.6884,-64.65419333333334],{"iconUrl":{"data":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGP6zwAAAgcBApocMXEAAAAASUVORK5CYII=","index":0},"iconWidth":1,"iconHeight":1},null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},null,null,null,null,["Brewers Bay","Compass Point","Francis Bay","Krause Lagoon","Lameshur Bay","Magens Bay","Mandahl Bay","Mary Creek","Perseverance Bay","Princess Bay","Reef Bay","STEER Basin","STEER Fringe","Salt River","Southgate","Turner Bay","Vessup Bay","Water Creek","Great Pond"],{"interactive":false,"permanent":true,"direction":"bottom","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":true,"style":{"font-family":"serif","font-style":"bold","font-size":"12px","pointer-events":"none"},"className":"","sticky":true,"color":"black"},null]},{"method":"addControl","args":["\n    <div style='background: white; padding: 15px 20px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.3); font-family: sans-serif; width: 420px; text-align: center;'>\n\n      <!-- Title -->\n      <div style='font-weight: bold; font-size: 14px; margin-bottom: 10px;'>Mean Basal Change (2022–2024)<\/div>\n\n      <!-- Circle legend -->\n      <div style='display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; font-size: 12px;'>\n        <div><strong>Negative<\/strong><\/div>\n        <div><strong>Positive<\/strong><\/div>\n      <\/div>\n\n      <svg width='100%' height='55'>\n        <!-- Red circles (negative change) -->\n        <circle cx='32' cy='25' r='20' fill='#FF0000' stroke='black' stroke-width='1'/>\n        <circle cx='72' cy='25' r='15' fill='#FF0000' stroke='black' stroke-width='1'/>\n        <circle cx='108' cy='25' r='12' fill='#FF0000' stroke='black' stroke-width='1'/>\n        <circle cx='138' cy='25' r='9'  fill='#FF0000' stroke='black' stroke-width='1'/>\n        <circle cx='162' cy='25' r='6'  fill='#FF0000' stroke='black' stroke-width='1'/>\n\n        <!-- Yellow circles (positive change) -->\n        <circle cx='198' cy='25' r='6'  fill='#E6E600' stroke='black' stroke-width='1'/>\n        <circle cx='222' cy='25' r='9'  fill='#E6E600' stroke='black' stroke-width='1'/>\n        <circle cx='252' cy='25' r='12' fill='#E6E600' stroke='black' stroke-width='1'/>\n        <circle cx='288' cy='25' r='15' fill='#E6E600' stroke='black' stroke-width='1'/>\n        <circle cx='328' cy='25' r='20' fill='#E6E600' stroke='black' stroke-width='1'/>\n      <\/svg>\n\n      <!-- Spacer -->\n      <div style='height: 10px;'><\/div>\n\n      <!-- Typology Title -->\n      <div style='font-weight: bold; font-size: 14px; margin-bottom: 5px;'>Typology<\/div>\n\n      <!-- Typology legend -->\n      <svg width='100%' height='40'>\n        <circle cx='100' cy='15' r='8' fill='black' stroke='black' stroke-width='1'/>\n        <text x='90' y='35' font-size='12'>Basin<\/text>\n\n        <circle cx='180' cy='15' r='8' fill='orange' stroke='black' stroke-width='1'/>\n        <text x='165' y='35' font-size='12'>Fringe<\/text>\n\n        <circle cx='260' cy='15' r='8' fill='blue' stroke='black' stroke-width='1'/>\n        <text x='240' y='35' font-size='12'>Salt Pond<\/text>\n      <\/svg>\n\n    <\/div>\n  ","bottomleft",null,"info legend"]},{"method":"addLayersControl","args":[["Typology","Total Change"],[],{"collapsed":false,"autoZIndex":true,"position":"topright"}]},{"method":"addProviderTiles","args":["Esri.OceanBasemap",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]}],"limits":{"lat":[17.69650666666667,18.36657333333333],"lng":[-64.99677,-64.65419333333334]},"setView":[[18,-64.8],10,[]]},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
+</div>
+</div>
+<div id="site-map" class="dashboard-page tab-pane grid-skip html-fill-item html-fill-container" data-orientation="rows" aria-labelledby="tab-site-map">
 <div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-rows: minmax(3em, 60fr); grid-auto-columns: minmax(0, 1fr);">
 <div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 50fr) minmax(3em, 50fr);
 grid-auto-rows: minmax(0, 1fr);">
@@ -111,7 +152,7 @@ grid-auto-rows: minmax(0, 1fr);">
 <div class="card-header"><div class="card-title">Seedling Density</div></div>
 <div class="card-body html-fill-item html-fill-container" style="padding: 2px;">
 <div class="cell-output-display html-fill-item html-fill-container">
-<img src="index_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid quarto-dashboard-img-contain">
+<img src="index_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid quarto-dashboard-img-contain">
 </div>
 </div>
 <bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
@@ -123,21 +164,21 @@ grid-auto-rows: minmax(0, 1fr);">
 </div><div class="card tabset html-fill-item html-fill-container bslib-card" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
 <div class="card-header dashboard-card-no-title bslib-navs-card-title">
 
-<ul class="nav nav-tabs card-header-tabs" role="tablist" data-tabsetid="card-tabset-4"><li class="nav-item" role="presentation"><a href="#card-tabset-4-1" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="R. mangle Density" aria-selected="true" class="nav-link active">R. mangle Density</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-4-2" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="A. germinians Density" aria-selected="false" class="nav-link">A. germinians Density</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-4-3" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="L. racemosa Density" aria-selected="false" class="nav-link">L. racemosa Density</a></li></ul></div>
+<ul class="nav nav-tabs card-header-tabs" role="tablist" data-tabsetid="card-tabset-5"><li class="nav-item" role="presentation"><a href="#card-tabset-5-1" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="R. mangle Density" aria-selected="true" class="nav-link active">R. mangle Density</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-5-2" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="A. germinians Density" aria-selected="false" class="nav-link">A. germinians Density</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-5-3" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="L. racemosa Density" aria-selected="false" class="nav-link">L. racemosa Density</a></li></ul></div>
 
 
 
-<div class="tab-content html-fill-item html-fill-container" data-tabset-id="card-tabset-4"><div class="tab-pane active show html-fill-item html-fill-container" role="tabpanel" id="card-tabset-4-1"><div class="card-body html-fill-item html-fill-container" data-title="R. mangle Density">
-<div class="cell-output-display html-fill-item html-fill-container">
-<img src="index_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid quarto-dashboard-img-contain">
-</div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-4-2"><div class="card-body html-fill-item html-fill-container" data-title="A. germinians Density">
+<div class="tab-content html-fill-item html-fill-container" data-tabset-id="card-tabset-5"><div class="tab-pane active show html-fill-item html-fill-container" role="tabpanel" id="card-tabset-5-1"><div class="card-body html-fill-item html-fill-container" data-title="R. mangle Density">
 <div class="cell-output-display html-fill-item html-fill-container">
 <img src="index_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid quarto-dashboard-img-contain">
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-4-3"><div class="card-body html-fill-item html-fill-container" data-title="L. racemosa Density">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-5-2"><div class="card-body html-fill-item html-fill-container" data-title="A. germinians Density">
 <div class="cell-output-display html-fill-item html-fill-container">
 <img src="index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid quarto-dashboard-img-contain">
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-5-3"><div class="card-body html-fill-item html-fill-container" data-title="L. racemosa Density">
+<div class="cell-output-display html-fill-item html-fill-container">
+<img src="index_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid quarto-dashboard-img-contain">
 </div>
 </div></div></div><bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
     <template>Expand</template>
@@ -153,15 +194,15 @@ grid-auto-rows: minmax(0, 1fr);">
 <div class="card tabset html-fill-item html-fill-container bslib-card" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
 <div class="card-header dashboard-card-no-title bslib-navs-card-title">
 
-<ul class="nav nav-tabs card-header-tabs" role="tablist" data-tabsetid="card-tabset-5"><li class="nav-item" role="presentation"><a href="#card-tabset-5-1" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="St.&nbsp;Thomas" aria-selected="true" class="nav-link active">St.&nbsp;Thomas</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-5-2" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="St.&nbsp;John" aria-selected="false" class="nav-link">St.&nbsp;John</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-5-3" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="St.&nbsp;Croix" aria-selected="false" class="nav-link">St.&nbsp;Croix</a></li></ul></div>
+<ul class="nav nav-tabs card-header-tabs" role="tablist" data-tabsetid="card-tabset-6"><li class="nav-item" role="presentation"><a href="#card-tabset-6-1" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="St.&nbsp;Thomas" aria-selected="true" class="nav-link active">St.&nbsp;Thomas</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-6-2" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="St.&nbsp;John" aria-selected="false" class="nav-link">St.&nbsp;John</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-6-3" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="St.&nbsp;Croix" aria-selected="false" class="nav-link">St.&nbsp;Croix</a></li></ul></div>
 
 
 
-<div class="tab-content html-fill-item html-fill-container" data-tabset-id="card-tabset-5"><div class="tab-pane active show html-fill-item html-fill-container" role="tabpanel" id="card-tabset-5-1"><div class="card-body html-fill-item html-fill-container" data-title="St.&nbsp;Thomas">
+<div class="tab-content html-fill-item html-fill-container" data-tabset-id="card-tabset-6"><div class="tab-pane active show html-fill-item html-fill-container" role="tabpanel" id="card-tabset-6-1"><div class="card-body html-fill-item html-fill-container" data-title="St.&nbsp;Thomas">
 <div class="card tabset html-fill-item html-fill-container bslib-card" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
 <div class="card-header dashboard-card-no-title bslib-navs-card-title">
 
-<ul class="nav nav-tabs card-header-tabs" role="tablist" data-tabsetid="card-tabset-6"><li class="nav-item" role="presentation"><a href="#card-tabset-6-1" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Brewers Bay" aria-selected="true" class="nav-link active">Brewers Bay</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-6-2" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Perseverance Bay" aria-selected="false" class="nav-link">Perseverance Bay</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-6-3" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Vessup Bay" aria-selected="false" class="nav-link">Vessup Bay</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-6-4" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Compass Point" aria-selected="false" class="nav-link">Compass Point</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-6-5" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Magens Bay" aria-selected="false" class="nav-link">Magens Bay</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-6-6" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Mandahl Bay" aria-selected="false" class="nav-link">Mandahl Bay</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-6-7" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="STEER Fringe" aria-selected="false" class="nav-link">STEER Fringe</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-6-8" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="STEER Basin" aria-selected="false" class="nav-link">STEER Basin</a></li></ul></div>
+<ul class="nav nav-tabs card-header-tabs" role="tablist" data-tabsetid="card-tabset-7"><li class="nav-item" role="presentation"><a href="#card-tabset-7-1" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Brewers Bay" aria-selected="true" class="nav-link active">Brewers Bay</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-7-2" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Perseverance Bay" aria-selected="false" class="nav-link">Perseverance Bay</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-7-3" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Vessup Bay" aria-selected="false" class="nav-link">Vessup Bay</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-7-4" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Compass Point" aria-selected="false" class="nav-link">Compass Point</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-7-5" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Magens Bay" aria-selected="false" class="nav-link">Magens Bay</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-7-6" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Mandahl Bay" aria-selected="false" class="nav-link">Mandahl Bay</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-7-7" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="STEER Fringe" aria-selected="false" class="nav-link">STEER Fringe</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-7-8" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="STEER Basin" aria-selected="false" class="nav-link">STEER Basin</a></li></ul></div>
 
 
 
@@ -170,137 +211,7 @@ grid-auto-rows: minmax(0, 1fr);">
 
 
 
-<div class="tab-content html-fill-item html-fill-container" data-tabset-id="card-tabset-6"><div class="tab-pane active show html-fill-item html-fill-container" role="tabpanel" id="card-tabset-6-1"><div class="card-body html-fill-item html-fill-container" data-title="Brewers Bay">
-<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr);
-grid-auto-rows: minmax(0, 1fr);">
-<div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
-<div class="card-body html-fill-item html-fill-container">
-<img src="index_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="940">
-</div>
-<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
-    <template>Expand</template>
-    <span class="bslib-full-screen-enter badge rounded-pill">
-        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
-    </span>
-</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
-</div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-6-2"><div class="card-body html-fill-item html-fill-container" data-title="Perseverance Bay">
-<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr);
-grid-auto-rows: minmax(0, 1fr);">
-<div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
-<div class="card-body html-fill-item html-fill-container">
-<img src="index_files/figure-html/unnamed-chunk-5-2.png" class="img-fluid" width="940">
-</div>
-<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
-    <template>Expand</template>
-    <span class="bslib-full-screen-enter badge rounded-pill">
-        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
-    </span>
-</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
-</div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-6-3"><div class="card-body html-fill-item html-fill-container" data-title="Vessup Bay">
-<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr);
-grid-auto-rows: minmax(0, 1fr);">
-<div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
-<div class="card-body html-fill-item html-fill-container">
-<img src="index_files/figure-html/unnamed-chunk-5-3.png" class="img-fluid" width="940">
-</div>
-<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
-    <template>Expand</template>
-    <span class="bslib-full-screen-enter badge rounded-pill">
-        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
-    </span>
-</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
-</div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-6-4"><div class="card-body html-fill-item html-fill-container" data-title="Compass Point">
-<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr);
-grid-auto-rows: minmax(0, 1fr);">
-<div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
-<div class="card-body html-fill-item html-fill-container">
-<img src="index_files/figure-html/unnamed-chunk-5-4.png" class="img-fluid" width="940">
-</div>
-<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
-    <template>Expand</template>
-    <span class="bslib-full-screen-enter badge rounded-pill">
-        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
-    </span>
-</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
-</div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-6-5"><div class="card-body html-fill-item html-fill-container" data-title="Magens Bay">
-<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr);
-grid-auto-rows: minmax(0, 1fr);">
-<div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
-<div class="card-body html-fill-item html-fill-container">
-<img src="index_files/figure-html/unnamed-chunk-5-5.png" class="img-fluid" width="940">
-</div>
-<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
-    <template>Expand</template>
-    <span class="bslib-full-screen-enter badge rounded-pill">
-        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
-    </span>
-</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
-</div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-6-6"><div class="card-body html-fill-item html-fill-container" data-title="Mandahl Bay">
-<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr);
-grid-auto-rows: minmax(0, 1fr);">
-<div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
-<div class="card-body html-fill-item html-fill-container">
-<img src="index_files/figure-html/unnamed-chunk-5-6.png" class="img-fluid" width="940">
-</div>
-<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
-    <template>Expand</template>
-    <span class="bslib-full-screen-enter badge rounded-pill">
-        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
-    </span>
-</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
-</div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-6-7"><div class="card-body html-fill-item html-fill-container" data-title="STEER Fringe">
-<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr);
-grid-auto-rows: minmax(0, 1fr);">
-<div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
-<div class="card-body html-fill-item html-fill-container">
-<img src="index_files/figure-html/unnamed-chunk-5-7.png" class="img-fluid" width="940">
-</div>
-<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
-    <template>Expand</template>
-    <span class="bslib-full-screen-enter badge rounded-pill">
-        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
-    </span>
-</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
-</div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-6-8"><div class="card-body html-fill-item html-fill-container" data-title="STEER Basin">
-<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr);
-grid-auto-rows: minmax(0, 1fr);">
-<div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
-<div class="card-body html-fill-item html-fill-container">
-<img src="index_files/figure-html/unnamed-chunk-5-8.png" class="img-fluid" width="940">
-</div>
-<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
-    <template>Expand</template>
-    <span class="bslib-full-screen-enter badge rounded-pill">
-        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
-    </span>
-</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
-</div>
-</div></div></div><bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
-    <template>Expand</template>
-    <span class="bslib-full-screen-enter badge rounded-pill">
-        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
-    </span>
-</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-5-2"><div class="card-body html-fill-item html-fill-container" data-title="St.&nbsp;John">
-<div class="card tabset html-fill-item html-fill-container bslib-card" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
-<div class="card-header dashboard-card-no-title bslib-navs-card-title">
-
-<ul class="nav nav-tabs card-header-tabs" role="tablist" data-tabsetid="card-tabset-15"><li class="nav-item" role="presentation"><a href="#card-tabset-15-1" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Lameshur Bay" aria-selected="true" class="nav-link active">Lameshur Bay</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-15-2" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Princess Bay" aria-selected="false" class="nav-link">Princess Bay</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-15-3" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Francis Bay" aria-selected="false" class="nav-link">Francis Bay</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-15-4" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Turner Bay" aria-selected="false" class="nav-link">Turner Bay</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-15-5" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Reef Bay" aria-selected="false" class="nav-link">Reef Bay</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-15-6" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Water Creek" aria-selected="false" class="nav-link">Water Creek</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-15-7" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Mary Creek" aria-selected="false" class="nav-link">Mary Creek</a></li></ul></div>
-
-
-
-
-
-
-
-<div class="tab-content html-fill-item html-fill-container" data-tabset-id="card-tabset-15"><div class="tab-pane active show html-fill-item html-fill-container" role="tabpanel" id="card-tabset-15-1"><div class="card-body html-fill-item html-fill-container" data-title="Lameshur Bay">
+<div class="tab-content html-fill-item html-fill-container" data-tabset-id="card-tabset-7"><div class="tab-pane active show html-fill-item html-fill-container" role="tabpanel" id="card-tabset-7-1"><div class="card-body html-fill-item html-fill-container" data-title="Brewers Bay">
 <div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr);
 grid-auto-rows: minmax(0, 1fr);">
 <div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
@@ -314,7 +225,7 @@ grid-auto-rows: minmax(0, 1fr);">
     </span>
 </bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-15-2"><div class="card-body html-fill-item html-fill-container" data-title="Princess Bay">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-7-2"><div class="card-body html-fill-item html-fill-container" data-title="Perseverance Bay">
 <div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr);
 grid-auto-rows: minmax(0, 1fr);">
 <div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
@@ -328,7 +239,7 @@ grid-auto-rows: minmax(0, 1fr);">
     </span>
 </bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-15-3"><div class="card-body html-fill-item html-fill-container" data-title="Francis Bay">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-7-3"><div class="card-body html-fill-item html-fill-container" data-title="Vessup Bay">
 <div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr);
 grid-auto-rows: minmax(0, 1fr);">
 <div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
@@ -342,7 +253,7 @@ grid-auto-rows: minmax(0, 1fr);">
     </span>
 </bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-15-4"><div class="card-body html-fill-item html-fill-container" data-title="Turner Bay">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-7-4"><div class="card-body html-fill-item html-fill-container" data-title="Compass Point">
 <div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr);
 grid-auto-rows: minmax(0, 1fr);">
 <div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
@@ -356,7 +267,7 @@ grid-auto-rows: minmax(0, 1fr);">
     </span>
 </bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-15-5"><div class="card-body html-fill-item html-fill-container" data-title="Reef Bay">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-7-5"><div class="card-body html-fill-item html-fill-container" data-title="Magens Bay">
 <div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr);
 grid-auto-rows: minmax(0, 1fr);">
 <div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
@@ -370,7 +281,7 @@ grid-auto-rows: minmax(0, 1fr);">
     </span>
 </bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-15-6"><div class="card-body html-fill-item html-fill-container" data-title="Water Creek">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-7-6"><div class="card-body html-fill-item html-fill-container" data-title="Mandahl Bay">
 <div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr);
 grid-auto-rows: minmax(0, 1fr);">
 <div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
@@ -384,12 +295,26 @@ grid-auto-rows: minmax(0, 1fr);">
     </span>
 </bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-15-7"><div class="card-body html-fill-item html-fill-container" data-title="Mary Creek">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-7-7"><div class="card-body html-fill-item html-fill-container" data-title="STEER Fringe">
 <div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr);
 grid-auto-rows: minmax(0, 1fr);">
 <div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
 <div class="card-body html-fill-item html-fill-container">
 <img src="index_files/figure-html/unnamed-chunk-6-7.png" class="img-fluid" width="940">
+</div>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-7-8"><div class="card-body html-fill-item html-fill-container" data-title="STEER Basin">
+<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr);
+grid-auto-rows: minmax(0, 1fr);">
+<div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
+<div class="card-body html-fill-item html-fill-container">
+<img src="index_files/figure-html/unnamed-chunk-6-8.png" class="img-fluid" width="940">
 </div>
 <bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
     <template>Expand</template>
@@ -404,16 +329,19 @@ grid-auto-rows: minmax(0, 1fr);">
         <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
     </span>
 </bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-5-3"><div class="card-body html-fill-item html-fill-container" data-title="St.&nbsp;Croix">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-6-2"><div class="card-body html-fill-item html-fill-container" data-title="St.&nbsp;John">
 <div class="card tabset html-fill-item html-fill-container bslib-card" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
 <div class="card-header dashboard-card-no-title bslib-navs-card-title">
 
-<ul class="nav nav-tabs card-header-tabs" role="tablist" data-tabsetid="card-tabset-23"><li class="nav-item" role="presentation"><a href="#card-tabset-23-1" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Krause Lagoon" aria-selected="true" class="nav-link active">Krause Lagoon</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-23-2" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Salt River" aria-selected="false" class="nav-link">Salt River</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-23-3" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Great Pond" aria-selected="false" class="nav-link">Great Pond</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-23-4" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Southgate" aria-selected="false" class="nav-link">Southgate</a></li></ul></div>
+<ul class="nav nav-tabs card-header-tabs" role="tablist" data-tabsetid="card-tabset-16"><li class="nav-item" role="presentation"><a href="#card-tabset-16-1" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Lameshur Bay" aria-selected="true" class="nav-link active">Lameshur Bay</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-16-2" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Princess Bay" aria-selected="false" class="nav-link">Princess Bay</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-16-3" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Francis Bay" aria-selected="false" class="nav-link">Francis Bay</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-16-4" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Turner Bay" aria-selected="false" class="nav-link">Turner Bay</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-16-5" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Reef Bay" aria-selected="false" class="nav-link">Reef Bay</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-16-6" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Water Creek" aria-selected="false" class="nav-link">Water Creek</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-16-7" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Mary Creek" aria-selected="false" class="nav-link">Mary Creek</a></li></ul></div>
 
 
 
 
-<div class="tab-content html-fill-item html-fill-container" data-tabset-id="card-tabset-23"><div class="tab-pane active show html-fill-item html-fill-container" role="tabpanel" id="card-tabset-23-1"><div class="card-body html-fill-item html-fill-container" data-title="Krause Lagoon">
+
+
+
+<div class="tab-content html-fill-item html-fill-container" data-tabset-id="card-tabset-16"><div class="tab-pane active show html-fill-item html-fill-container" role="tabpanel" id="card-tabset-16-1"><div class="card-body html-fill-item html-fill-container" data-title="Lameshur Bay">
 <div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr);
 grid-auto-rows: minmax(0, 1fr);">
 <div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
@@ -427,7 +355,7 @@ grid-auto-rows: minmax(0, 1fr);">
     </span>
 </bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-23-2"><div class="card-body html-fill-item html-fill-container" data-title="Salt River">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-16-2"><div class="card-body html-fill-item html-fill-container" data-title="Princess Bay">
 <div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr);
 grid-auto-rows: minmax(0, 1fr);">
 <div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
@@ -441,7 +369,7 @@ grid-auto-rows: minmax(0, 1fr);">
     </span>
 </bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-23-3"><div class="card-body html-fill-item html-fill-container" data-title="Great Pond">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-16-3"><div class="card-body html-fill-item html-fill-container" data-title="Francis Bay">
 <div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr);
 grid-auto-rows: minmax(0, 1fr);">
 <div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
@@ -455,12 +383,125 @@ grid-auto-rows: minmax(0, 1fr);">
     </span>
 </bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-23-4"><div class="card-body html-fill-item html-fill-container" data-title="Southgate">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-16-4"><div class="card-body html-fill-item html-fill-container" data-title="Turner Bay">
 <div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr);
 grid-auto-rows: minmax(0, 1fr);">
 <div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
 <div class="card-body html-fill-item html-fill-container">
 <img src="index_files/figure-html/unnamed-chunk-7-4.png" class="img-fluid" width="940">
+</div>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-16-5"><div class="card-body html-fill-item html-fill-container" data-title="Reef Bay">
+<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr);
+grid-auto-rows: minmax(0, 1fr);">
+<div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
+<div class="card-body html-fill-item html-fill-container">
+<img src="index_files/figure-html/unnamed-chunk-7-5.png" class="img-fluid" width="940">
+</div>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-16-6"><div class="card-body html-fill-item html-fill-container" data-title="Water Creek">
+<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr);
+grid-auto-rows: minmax(0, 1fr);">
+<div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
+<div class="card-body html-fill-item html-fill-container">
+<img src="index_files/figure-html/unnamed-chunk-7-6.png" class="img-fluid" width="940">
+</div>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-16-7"><div class="card-body html-fill-item html-fill-container" data-title="Mary Creek">
+<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr);
+grid-auto-rows: minmax(0, 1fr);">
+<div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
+<div class="card-body html-fill-item html-fill-container">
+<img src="index_files/figure-html/unnamed-chunk-7-7.png" class="img-fluid" width="940">
+</div>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
+</div>
+</div></div></div><bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-6-3"><div class="card-body html-fill-item html-fill-container" data-title="St.&nbsp;Croix">
+<div class="card tabset html-fill-item html-fill-container bslib-card" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
+<div class="card-header dashboard-card-no-title bslib-navs-card-title">
+
+<ul class="nav nav-tabs card-header-tabs" role="tablist" data-tabsetid="card-tabset-24"><li class="nav-item" role="presentation"><a href="#card-tabset-24-1" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Krause Lagoon" aria-selected="true" class="nav-link active">Krause Lagoon</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-24-2" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Salt River" aria-selected="false" class="nav-link">Salt River</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-24-3" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Great Pond" aria-selected="false" class="nav-link">Great Pond</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-24-4" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Southgate" aria-selected="false" class="nav-link">Southgate</a></li></ul></div>
+
+
+
+
+<div class="tab-content html-fill-item html-fill-container" data-tabset-id="card-tabset-24"><div class="tab-pane active show html-fill-item html-fill-container" role="tabpanel" id="card-tabset-24-1"><div class="card-body html-fill-item html-fill-container" data-title="Krause Lagoon">
+<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr);
+grid-auto-rows: minmax(0, 1fr);">
+<div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
+<div class="card-body html-fill-item html-fill-container">
+<img src="index_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="940">
+</div>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-24-2"><div class="card-body html-fill-item html-fill-container" data-title="Salt River">
+<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr);
+grid-auto-rows: minmax(0, 1fr);">
+<div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
+<div class="card-body html-fill-item html-fill-container">
+<img src="index_files/figure-html/unnamed-chunk-8-2.png" class="img-fluid" width="940">
+</div>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-24-3"><div class="card-body html-fill-item html-fill-container" data-title="Great Pond">
+<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr);
+grid-auto-rows: minmax(0, 1fr);">
+<div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
+<div class="card-body html-fill-item html-fill-container">
+<img src="index_files/figure-html/unnamed-chunk-8-3.png" class="img-fluid" width="940">
+</div>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-24-4"><div class="card-body html-fill-item html-fill-container" data-title="Southgate">
+<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr);
+grid-auto-rows: minmax(0, 1fr);">
+<div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
+<div class="card-body html-fill-item html-fill-container">
+<img src="index_files/figure-html/unnamed-chunk-8-4.png" class="img-fluid" width="940">
 </div>
 <bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
     <template>Expand</template>
@@ -491,7 +532,7 @@ grid-auto-rows: minmax(0, 1fr);">
 <div class="card-header"><div class="card-title">Densiometer Data</div></div>
 <div class="card-body html-fill-item html-fill-container">
 <div class="cell-output-display html-fill-item html-fill-container">
-<img src="index_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid quarto-dashboard-img-contain">
+<img src="index_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid quarto-dashboard-img-contain">
 </div>
 </div>
 <bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
@@ -508,32 +549,32 @@ grid-auto-rows: minmax(0, 1fr);">
 <div class="card tabset html-fill-item html-fill-container bslib-card" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
 <div class="card-header dashboard-card-no-title bslib-navs-card-title">
 
-<ul class="nav nav-tabs card-header-tabs" role="tablist" data-tabsetid="card-tabset-29"><li class="nav-item" role="presentation"><a href="#card-tabset-29-1" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Tree Measurements" aria-selected="true" class="nav-link active">Tree Measurements</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-29-2" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Seedling Density" aria-selected="false" class="nav-link">Seedling Density</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-29-3" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Water Quality" aria-selected="false" class="nav-link">Water Quality</a></li></ul></div>
+<ul class="nav nav-tabs card-header-tabs" role="tablist" data-tabsetid="card-tabset-30"><li class="nav-item" role="presentation"><a href="#card-tabset-30-1" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Tree Measurements" aria-selected="true" class="nav-link active">Tree Measurements</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-30-2" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Seedling Density" aria-selected="false" class="nav-link">Seedling Density</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-30-3" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Water Quality" aria-selected="false" class="nav-link">Water Quality</a></li></ul></div>
 
 
 
 <div id="3ade8a4a-fb1d-4a6c-8409-ac45482d5fc9" class="hidden html-fill-item html-fill-container">
 
 </div>
-<div class="tab-content html-fill-item html-fill-container" data-tabset-id="card-tabset-29"><div class="tab-pane active show html-fill-item html-fill-container" role="tabpanel" id="card-tabset-29-1"><div class="card-body html-fill-item html-fill-container" data-title="Tree Measurements">
+<div class="tab-content html-fill-item html-fill-container" data-tabset-id="card-tabset-30"><div class="tab-pane active show html-fill-item html-fill-container" role="tabpanel" id="card-tabset-30-1"><div class="card-body html-fill-item html-fill-container" data-title="Tree Measurements">
 <div class="cell-output-display html-fill-item html-fill-container">
-<div id="khpgvvvhrf" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;" class="html-fill-item html-fill-container">
-<style>#khpgvvvhrf table {
+<div id="iebahjccja" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;" class="html-fill-item html-fill-container">
+<style>#iebahjccja table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#khpgvvvhrf thead, #khpgvvvhrf tbody, #khpgvvvhrf tfoot, #khpgvvvhrf tr, #khpgvvvhrf td, #khpgvvvhrf th {
+#iebahjccja thead, #iebahjccja tbody, #iebahjccja tfoot, #iebahjccja tr, #iebahjccja td, #iebahjccja th {
   border-style: none;
 }
 
-#khpgvvvhrf p {
+#iebahjccja p {
   margin: 0;
   padding: 0;
 }
 
-#khpgvvvhrf .gt_table {
+#iebahjccja .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -559,12 +600,12 @@ grid-auto-rows: minmax(0, 1fr);">
   border-left-color: #D3D3D3;
 }
 
-#khpgvvvhrf .gt_caption {
+#iebahjccja .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#khpgvvvhrf .gt_title {
+#iebahjccja .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -576,7 +617,7 @@ grid-auto-rows: minmax(0, 1fr);">
   border-bottom-width: 0;
 }
 
-#khpgvvvhrf .gt_subtitle {
+#iebahjccja .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -588,7 +629,7 @@ grid-auto-rows: minmax(0, 1fr);">
   border-top-width: 0;
 }
 
-#khpgvvvhrf .gt_heading {
+#iebahjccja .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -600,13 +641,13 @@ grid-auto-rows: minmax(0, 1fr);">
   border-right-color: #D3D3D3;
 }
 
-#khpgvvvhrf .gt_bottom_border {
+#iebahjccja .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#khpgvvvhrf .gt_col_headings {
+#iebahjccja .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -621,7 +662,7 @@ grid-auto-rows: minmax(0, 1fr);">
   border-right-color: #D3D3D3;
 }
 
-#khpgvvvhrf .gt_col_heading {
+#iebahjccja .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -641,7 +682,7 @@ grid-auto-rows: minmax(0, 1fr);">
   overflow-x: hidden;
 }
 
-#khpgvvvhrf .gt_column_spanner_outer {
+#iebahjccja .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -653,15 +694,15 @@ grid-auto-rows: minmax(0, 1fr);">
   padding-right: 4px;
 }
 
-#khpgvvvhrf .gt_column_spanner_outer:first-child {
+#iebahjccja .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#khpgvvvhrf .gt_column_spanner_outer:last-child {
+#iebahjccja .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#khpgvvvhrf .gt_column_spanner {
+#iebahjccja .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -673,11 +714,11 @@ grid-auto-rows: minmax(0, 1fr);">
   width: 100%;
 }
 
-#khpgvvvhrf .gt_spanner_row {
+#iebahjccja .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#khpgvvvhrf .gt_group_heading {
+#iebahjccja .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -703,7 +744,7 @@ grid-auto-rows: minmax(0, 1fr);">
   text-align: left;
 }
 
-#khpgvvvhrf .gt_empty_group_heading {
+#iebahjccja .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -718,15 +759,15 @@ grid-auto-rows: minmax(0, 1fr);">
   vertical-align: middle;
 }
 
-#khpgvvvhrf .gt_from_md > :first-child {
+#iebahjccja .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#khpgvvvhrf .gt_from_md > :last-child {
+#iebahjccja .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#khpgvvvhrf .gt_row {
+#iebahjccja .gt_row {
   padding-top: 5px;
   padding-bottom: 5px;
   padding-left: 5px;
@@ -745,7 +786,7 @@ grid-auto-rows: minmax(0, 1fr);">
   overflow-x: hidden;
 }
 
-#khpgvvvhrf .gt_stub {
+#iebahjccja .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -758,7 +799,7 @@ grid-auto-rows: minmax(0, 1fr);">
   padding-right: 5px;
 }
 
-#khpgvvvhrf .gt_stub_row_group {
+#iebahjccja .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -772,15 +813,15 @@ grid-auto-rows: minmax(0, 1fr);">
   vertical-align: top;
 }
 
-#khpgvvvhrf .gt_row_group_first td {
+#iebahjccja .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#khpgvvvhrf .gt_row_group_first th {
+#iebahjccja .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#khpgvvvhrf .gt_summary_row {
+#iebahjccja .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -790,16 +831,16 @@ grid-auto-rows: minmax(0, 1fr);">
   padding-right: 5px;
 }
 
-#khpgvvvhrf .gt_first_summary_row {
+#iebahjccja .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#khpgvvvhrf .gt_first_summary_row.thick {
+#iebahjccja .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#khpgvvvhrf .gt_last_summary_row {
+#iebahjccja .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -809,7 +850,7 @@ grid-auto-rows: minmax(0, 1fr);">
   border-bottom-color: #D3D3D3;
 }
 
-#khpgvvvhrf .gt_grand_summary_row {
+#iebahjccja .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -819,7 +860,7 @@ grid-auto-rows: minmax(0, 1fr);">
   padding-right: 5px;
 }
 
-#khpgvvvhrf .gt_first_grand_summary_row {
+#iebahjccja .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -829,7 +870,7 @@ grid-auto-rows: minmax(0, 1fr);">
   border-top-color: #D3D3D3;
 }
 
-#khpgvvvhrf .gt_last_grand_summary_row_top {
+#iebahjccja .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -839,11 +880,11 @@ grid-auto-rows: minmax(0, 1fr);">
   border-bottom-color: #D3D3D3;
 }
 
-#khpgvvvhrf .gt_striped {
+#iebahjccja .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#khpgvvvhrf .gt_table_body {
+#iebahjccja .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -852,7 +893,7 @@ grid-auto-rows: minmax(0, 1fr);">
   border-bottom-color: #D3D3D3;
 }
 
-#khpgvvvhrf .gt_footnotes {
+#iebahjccja .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -866,7 +907,7 @@ grid-auto-rows: minmax(0, 1fr);">
   border-right-color: #D3D3D3;
 }
 
-#khpgvvvhrf .gt_footnote {
+#iebahjccja .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -875,7 +916,7 @@ grid-auto-rows: minmax(0, 1fr);">
   padding-right: 5px;
 }
 
-#khpgvvvhrf .gt_sourcenotes {
+#iebahjccja .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -889,7 +930,7 @@ grid-auto-rows: minmax(0, 1fr);">
   border-right-color: #D3D3D3;
 }
 
-#khpgvvvhrf .gt_sourcenote {
+#iebahjccja .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -897,72 +938,72 @@ grid-auto-rows: minmax(0, 1fr);">
   padding-right: 5px;
 }
 
-#khpgvvvhrf .gt_left {
+#iebahjccja .gt_left {
   text-align: left;
 }
 
-#khpgvvvhrf .gt_center {
+#iebahjccja .gt_center {
   text-align: center;
 }
 
-#khpgvvvhrf .gt_right {
+#iebahjccja .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#khpgvvvhrf .gt_font_normal {
+#iebahjccja .gt_font_normal {
   font-weight: normal;
 }
 
-#khpgvvvhrf .gt_font_bold {
+#iebahjccja .gt_font_bold {
   font-weight: bold;
 }
 
-#khpgvvvhrf .gt_font_italic {
+#iebahjccja .gt_font_italic {
   font-style: italic;
 }
 
-#khpgvvvhrf .gt_super {
+#iebahjccja .gt_super {
   font-size: 65%;
 }
 
-#khpgvvvhrf .gt_footnote_marks {
+#iebahjccja .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#khpgvvvhrf .gt_asterisk {
+#iebahjccja .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#khpgvvvhrf .gt_indent_1 {
+#iebahjccja .gt_indent_1 {
   text-indent: 5px;
 }
 
-#khpgvvvhrf .gt_indent_2 {
+#iebahjccja .gt_indent_2 {
   text-indent: 10px;
 }
 
-#khpgvvvhrf .gt_indent_3 {
+#iebahjccja .gt_indent_3 {
   text-indent: 15px;
 }
 
-#khpgvvvhrf .gt_indent_4 {
+#iebahjccja .gt_indent_4 {
   text-indent: 20px;
 }
 
-#khpgvvvhrf .gt_indent_5 {
+#iebahjccja .gt_indent_5 {
   text-indent: 25px;
 }
 
-#khpgvvvhrf .katex-display {
+#iebahjccja .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#khpgvvvhrf div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#iebahjccja div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1401,25 +1442,25 @@ Relative Distribution of Species
 
 </div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-29-2"><div class="card-body html-fill-item html-fill-container" data-title="Seedling Density">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-30-2"><div class="card-body html-fill-item html-fill-container" data-title="Seedling Density">
 <div class="cell-output-display html-fill-item html-fill-container">
-<div id="dgijmhjwsb" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;" class="html-fill-item html-fill-container">
-<style>#dgijmhjwsb table {
+<div id="pnnobceaxz" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;" class="html-fill-item html-fill-container">
+<style>#pnnobceaxz table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#dgijmhjwsb thead, #dgijmhjwsb tbody, #dgijmhjwsb tfoot, #dgijmhjwsb tr, #dgijmhjwsb td, #dgijmhjwsb th {
+#pnnobceaxz thead, #pnnobceaxz tbody, #pnnobceaxz tfoot, #pnnobceaxz tr, #pnnobceaxz td, #pnnobceaxz th {
   border-style: none;
 }
 
-#dgijmhjwsb p {
+#pnnobceaxz p {
   margin: 0;
   padding: 0;
 }
 
-#dgijmhjwsb .gt_table {
+#pnnobceaxz .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1445,12 +1486,12 @@ Relative Distribution of Species
   border-left-color: #D3D3D3;
 }
 
-#dgijmhjwsb .gt_caption {
+#pnnobceaxz .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#dgijmhjwsb .gt_title {
+#pnnobceaxz .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1462,7 +1503,7 @@ Relative Distribution of Species
   border-bottom-width: 0;
 }
 
-#dgijmhjwsb .gt_subtitle {
+#pnnobceaxz .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1474,7 +1515,7 @@ Relative Distribution of Species
   border-top-width: 0;
 }
 
-#dgijmhjwsb .gt_heading {
+#pnnobceaxz .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1486,13 +1527,13 @@ Relative Distribution of Species
   border-right-color: #D3D3D3;
 }
 
-#dgijmhjwsb .gt_bottom_border {
+#pnnobceaxz .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#dgijmhjwsb .gt_col_headings {
+#pnnobceaxz .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1507,7 +1548,7 @@ Relative Distribution of Species
   border-right-color: #D3D3D3;
 }
 
-#dgijmhjwsb .gt_col_heading {
+#pnnobceaxz .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1527,7 +1568,7 @@ Relative Distribution of Species
   overflow-x: hidden;
 }
 
-#dgijmhjwsb .gt_column_spanner_outer {
+#pnnobceaxz .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1539,15 +1580,15 @@ Relative Distribution of Species
   padding-right: 4px;
 }
 
-#dgijmhjwsb .gt_column_spanner_outer:first-child {
+#pnnobceaxz .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#dgijmhjwsb .gt_column_spanner_outer:last-child {
+#pnnobceaxz .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#dgijmhjwsb .gt_column_spanner {
+#pnnobceaxz .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1559,11 +1600,11 @@ Relative Distribution of Species
   width: 100%;
 }
 
-#dgijmhjwsb .gt_spanner_row {
+#pnnobceaxz .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#dgijmhjwsb .gt_group_heading {
+#pnnobceaxz .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1589,7 +1630,7 @@ Relative Distribution of Species
   text-align: left;
 }
 
-#dgijmhjwsb .gt_empty_group_heading {
+#pnnobceaxz .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1604,15 +1645,15 @@ Relative Distribution of Species
   vertical-align: middle;
 }
 
-#dgijmhjwsb .gt_from_md > :first-child {
+#pnnobceaxz .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#dgijmhjwsb .gt_from_md > :last-child {
+#pnnobceaxz .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#dgijmhjwsb .gt_row {
+#pnnobceaxz .gt_row {
   padding-top: 5px;
   padding-bottom: 5px;
   padding-left: 5px;
@@ -1631,7 +1672,7 @@ Relative Distribution of Species
   overflow-x: hidden;
 }
 
-#dgijmhjwsb .gt_stub {
+#pnnobceaxz .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1644,7 +1685,7 @@ Relative Distribution of Species
   padding-right: 5px;
 }
 
-#dgijmhjwsb .gt_stub_row_group {
+#pnnobceaxz .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1658,15 +1699,15 @@ Relative Distribution of Species
   vertical-align: top;
 }
 
-#dgijmhjwsb .gt_row_group_first td {
+#pnnobceaxz .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#dgijmhjwsb .gt_row_group_first th {
+#pnnobceaxz .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#dgijmhjwsb .gt_summary_row {
+#pnnobceaxz .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1676,16 +1717,16 @@ Relative Distribution of Species
   padding-right: 5px;
 }
 
-#dgijmhjwsb .gt_first_summary_row {
+#pnnobceaxz .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#dgijmhjwsb .gt_first_summary_row.thick {
+#pnnobceaxz .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#dgijmhjwsb .gt_last_summary_row {
+#pnnobceaxz .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1695,7 +1736,7 @@ Relative Distribution of Species
   border-bottom-color: #D3D3D3;
 }
 
-#dgijmhjwsb .gt_grand_summary_row {
+#pnnobceaxz .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1705,7 +1746,7 @@ Relative Distribution of Species
   padding-right: 5px;
 }
 
-#dgijmhjwsb .gt_first_grand_summary_row {
+#pnnobceaxz .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1715,7 +1756,7 @@ Relative Distribution of Species
   border-top-color: #D3D3D3;
 }
 
-#dgijmhjwsb .gt_last_grand_summary_row_top {
+#pnnobceaxz .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1725,11 +1766,11 @@ Relative Distribution of Species
   border-bottom-color: #D3D3D3;
 }
 
-#dgijmhjwsb .gt_striped {
+#pnnobceaxz .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#dgijmhjwsb .gt_table_body {
+#pnnobceaxz .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1738,7 +1779,7 @@ Relative Distribution of Species
   border-bottom-color: #D3D3D3;
 }
 
-#dgijmhjwsb .gt_footnotes {
+#pnnobceaxz .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1752,7 +1793,7 @@ Relative Distribution of Species
   border-right-color: #D3D3D3;
 }
 
-#dgijmhjwsb .gt_footnote {
+#pnnobceaxz .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1761,7 +1802,7 @@ Relative Distribution of Species
   padding-right: 5px;
 }
 
-#dgijmhjwsb .gt_sourcenotes {
+#pnnobceaxz .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1775,7 +1816,7 @@ Relative Distribution of Species
   border-right-color: #D3D3D3;
 }
 
-#dgijmhjwsb .gt_sourcenote {
+#pnnobceaxz .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1783,72 +1824,72 @@ Relative Distribution of Species
   padding-right: 5px;
 }
 
-#dgijmhjwsb .gt_left {
+#pnnobceaxz .gt_left {
   text-align: left;
 }
 
-#dgijmhjwsb .gt_center {
+#pnnobceaxz .gt_center {
   text-align: center;
 }
 
-#dgijmhjwsb .gt_right {
+#pnnobceaxz .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#dgijmhjwsb .gt_font_normal {
+#pnnobceaxz .gt_font_normal {
   font-weight: normal;
 }
 
-#dgijmhjwsb .gt_font_bold {
+#pnnobceaxz .gt_font_bold {
   font-weight: bold;
 }
 
-#dgijmhjwsb .gt_font_italic {
+#pnnobceaxz .gt_font_italic {
   font-style: italic;
 }
 
-#dgijmhjwsb .gt_super {
+#pnnobceaxz .gt_super {
   font-size: 65%;
 }
 
-#dgijmhjwsb .gt_footnote_marks {
+#pnnobceaxz .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#dgijmhjwsb .gt_asterisk {
+#pnnobceaxz .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#dgijmhjwsb .gt_indent_1 {
+#pnnobceaxz .gt_indent_1 {
   text-indent: 5px;
 }
 
-#dgijmhjwsb .gt_indent_2 {
+#pnnobceaxz .gt_indent_2 {
   text-indent: 10px;
 }
 
-#dgijmhjwsb .gt_indent_3 {
+#pnnobceaxz .gt_indent_3 {
   text-indent: 15px;
 }
 
-#dgijmhjwsb .gt_indent_4 {
+#pnnobceaxz .gt_indent_4 {
   text-indent: 20px;
 }
 
-#dgijmhjwsb .gt_indent_5 {
+#pnnobceaxz .gt_indent_5 {
   text-indent: 25px;
 }
 
-#dgijmhjwsb .katex-display {
+#pnnobceaxz .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#dgijmhjwsb div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#pnnobceaxz div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -2374,25 +2415,25 @@ Relative Distribution of Species
 
 </div>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-29-3"><div class="card-body html-fill-item html-fill-container" data-title="Water Quality">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-30-3"><div class="card-body html-fill-item html-fill-container" data-title="Water Quality">
 <div class="cell-output-display html-fill-item html-fill-container">
-<div id="lwsjzixaxd" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;" class="html-fill-item html-fill-container">
-<style>#lwsjzixaxd table {
+<div id="xbpfdgbksf" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;" class="html-fill-item html-fill-container">
+<style>#xbpfdgbksf table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#lwsjzixaxd thead, #lwsjzixaxd tbody, #lwsjzixaxd tfoot, #lwsjzixaxd tr, #lwsjzixaxd td, #lwsjzixaxd th {
+#xbpfdgbksf thead, #xbpfdgbksf tbody, #xbpfdgbksf tfoot, #xbpfdgbksf tr, #xbpfdgbksf td, #xbpfdgbksf th {
   border-style: none;
 }
 
-#lwsjzixaxd p {
+#xbpfdgbksf p {
   margin: 0;
   padding: 0;
 }
 
-#lwsjzixaxd .gt_table {
+#xbpfdgbksf .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -2418,12 +2459,12 @@ Relative Distribution of Species
   border-left-color: #D3D3D3;
 }
 
-#lwsjzixaxd .gt_caption {
+#xbpfdgbksf .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#lwsjzixaxd .gt_title {
+#xbpfdgbksf .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2435,7 +2476,7 @@ Relative Distribution of Species
   border-bottom-width: 0;
 }
 
-#lwsjzixaxd .gt_subtitle {
+#xbpfdgbksf .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2447,7 +2488,7 @@ Relative Distribution of Species
   border-top-width: 0;
 }
 
-#lwsjzixaxd .gt_heading {
+#xbpfdgbksf .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2459,13 +2500,13 @@ Relative Distribution of Species
   border-right-color: #D3D3D3;
 }
 
-#lwsjzixaxd .gt_bottom_border {
+#xbpfdgbksf .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#lwsjzixaxd .gt_col_headings {
+#xbpfdgbksf .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2480,7 +2521,7 @@ Relative Distribution of Species
   border-right-color: #D3D3D3;
 }
 
-#lwsjzixaxd .gt_col_heading {
+#xbpfdgbksf .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2500,7 +2541,7 @@ Relative Distribution of Species
   overflow-x: hidden;
 }
 
-#lwsjzixaxd .gt_column_spanner_outer {
+#xbpfdgbksf .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2512,15 +2553,15 @@ Relative Distribution of Species
   padding-right: 4px;
 }
 
-#lwsjzixaxd .gt_column_spanner_outer:first-child {
+#xbpfdgbksf .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#lwsjzixaxd .gt_column_spanner_outer:last-child {
+#xbpfdgbksf .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#lwsjzixaxd .gt_column_spanner {
+#xbpfdgbksf .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2532,11 +2573,11 @@ Relative Distribution of Species
   width: 100%;
 }
 
-#lwsjzixaxd .gt_spanner_row {
+#xbpfdgbksf .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#lwsjzixaxd .gt_group_heading {
+#xbpfdgbksf .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2562,7 +2603,7 @@ Relative Distribution of Species
   text-align: left;
 }
 
-#lwsjzixaxd .gt_empty_group_heading {
+#xbpfdgbksf .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2577,15 +2618,15 @@ Relative Distribution of Species
   vertical-align: middle;
 }
 
-#lwsjzixaxd .gt_from_md > :first-child {
+#xbpfdgbksf .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#lwsjzixaxd .gt_from_md > :last-child {
+#xbpfdgbksf .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#lwsjzixaxd .gt_row {
+#xbpfdgbksf .gt_row {
   padding-top: 5px;
   padding-bottom: 5px;
   padding-left: 5px;
@@ -2604,7 +2645,7 @@ Relative Distribution of Species
   overflow-x: hidden;
 }
 
-#lwsjzixaxd .gt_stub {
+#xbpfdgbksf .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2617,7 +2658,7 @@ Relative Distribution of Species
   padding-right: 5px;
 }
 
-#lwsjzixaxd .gt_stub_row_group {
+#xbpfdgbksf .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2631,15 +2672,15 @@ Relative Distribution of Species
   vertical-align: top;
 }
 
-#lwsjzixaxd .gt_row_group_first td {
+#xbpfdgbksf .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#lwsjzixaxd .gt_row_group_first th {
+#xbpfdgbksf .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#lwsjzixaxd .gt_summary_row {
+#xbpfdgbksf .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2649,16 +2690,16 @@ Relative Distribution of Species
   padding-right: 5px;
 }
 
-#lwsjzixaxd .gt_first_summary_row {
+#xbpfdgbksf .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#lwsjzixaxd .gt_first_summary_row.thick {
+#xbpfdgbksf .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#lwsjzixaxd .gt_last_summary_row {
+#xbpfdgbksf .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2668,7 +2709,7 @@ Relative Distribution of Species
   border-bottom-color: #D3D3D3;
 }
 
-#lwsjzixaxd .gt_grand_summary_row {
+#xbpfdgbksf .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2678,7 +2719,7 @@ Relative Distribution of Species
   padding-right: 5px;
 }
 
-#lwsjzixaxd .gt_first_grand_summary_row {
+#xbpfdgbksf .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2688,7 +2729,7 @@ Relative Distribution of Species
   border-top-color: #D3D3D3;
 }
 
-#lwsjzixaxd .gt_last_grand_summary_row_top {
+#xbpfdgbksf .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2698,11 +2739,11 @@ Relative Distribution of Species
   border-bottom-color: #D3D3D3;
 }
 
-#lwsjzixaxd .gt_striped {
+#xbpfdgbksf .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#lwsjzixaxd .gt_table_body {
+#xbpfdgbksf .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2711,7 +2752,7 @@ Relative Distribution of Species
   border-bottom-color: #D3D3D3;
 }
 
-#lwsjzixaxd .gt_footnotes {
+#xbpfdgbksf .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2725,7 +2766,7 @@ Relative Distribution of Species
   border-right-color: #D3D3D3;
 }
 
-#lwsjzixaxd .gt_footnote {
+#xbpfdgbksf .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2734,7 +2775,7 @@ Relative Distribution of Species
   padding-right: 5px;
 }
 
-#lwsjzixaxd .gt_sourcenotes {
+#xbpfdgbksf .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2748,7 +2789,7 @@ Relative Distribution of Species
   border-right-color: #D3D3D3;
 }
 
-#lwsjzixaxd .gt_sourcenote {
+#xbpfdgbksf .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2756,72 +2797,72 @@ Relative Distribution of Species
   padding-right: 5px;
 }
 
-#lwsjzixaxd .gt_left {
+#xbpfdgbksf .gt_left {
   text-align: left;
 }
 
-#lwsjzixaxd .gt_center {
+#xbpfdgbksf .gt_center {
   text-align: center;
 }
 
-#lwsjzixaxd .gt_right {
+#xbpfdgbksf .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#lwsjzixaxd .gt_font_normal {
+#xbpfdgbksf .gt_font_normal {
   font-weight: normal;
 }
 
-#lwsjzixaxd .gt_font_bold {
+#xbpfdgbksf .gt_font_bold {
   font-weight: bold;
 }
 
-#lwsjzixaxd .gt_font_italic {
+#xbpfdgbksf .gt_font_italic {
   font-style: italic;
 }
 
-#lwsjzixaxd .gt_super {
+#xbpfdgbksf .gt_super {
   font-size: 65%;
 }
 
-#lwsjzixaxd .gt_footnote_marks {
+#xbpfdgbksf .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#lwsjzixaxd .gt_asterisk {
+#xbpfdgbksf .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#lwsjzixaxd .gt_indent_1 {
+#xbpfdgbksf .gt_indent_1 {
   text-indent: 5px;
 }
 
-#lwsjzixaxd .gt_indent_2 {
+#xbpfdgbksf .gt_indent_2 {
   text-indent: 10px;
 }
 
-#lwsjzixaxd .gt_indent_3 {
+#xbpfdgbksf .gt_indent_3 {
   text-indent: 15px;
 }
 
-#lwsjzixaxd .gt_indent_4 {
+#xbpfdgbksf .gt_indent_4 {
   text-indent: 20px;
 }
 
-#lwsjzixaxd .gt_indent_5 {
+#xbpfdgbksf .gt_indent_5 {
   text-indent: 25px;
 }
 
-#lwsjzixaxd .katex-display {
+#xbpfdgbksf .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#lwsjzixaxd div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#xbpfdgbksf div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>

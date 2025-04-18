@@ -595,12 +595,17 @@ percent_basal_area_change <- function(tree_measurements) {
 # Calculates the average basal change from 2022 to 2024 for each site in terms of m2
 # Hardcoded: The percent_change field uses hard coded years (as strings), 2022 and 2024  
 # Outputs a datframe
-total_basal_area_change <- function(tree_measurements) {
+total_basal_area_change <- function(tree_measurements, site_coords) {
+  
+  site_latlon <- site_coordinates(site_coords)
   
   a <- mean_basal_area(tree_measurements) %>% 
     select(SY, Site, mean_basal_area) %>%
     pivot_wider(names_from = SY, values_from = mean_basal_area, values_fill = 0) %>%
-    mutate(total_change = (`2024` - `2022`))
+    mutate(total_change = (`2024` - `2022`)) %>% 
+    right_join(site_latlon) %>% 
+    mutate(across(.cols = everything(), \(x) replace_na(x, 0)))
+    
   
   return(a)
 }

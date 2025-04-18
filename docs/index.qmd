@@ -14,6 +14,8 @@ library(gt)
 library(readxl)
 library(webshot2)
 library(ggbreak)
+library(leaflet)
+library(htmltools)
 
 # Source Plotting Functions
 source("../scripts/TMMP_functions.R", local = knitr::knit_global())
@@ -31,17 +33,146 @@ sapling_data <- read_xlsx(Mangrove_Input_Excel_File, sheet = "Sapling")
 YSI_data <- read_xlsx(Mangrove_Input_Excel_File, sheet = "YSI Water Quality data")
 ```
 
+# **Leaflet Map**
+
+```{r}
+
+total_basal_change <- total_basal_area_change(tree_measurements = tree_measurements, site_coords = site_coords)
+
+# Assume total_basal_change is already created
+data <- total_basal_change %>% 
+  mutate(direction = ifelse(total_change > 0, "pos", "neg"))
+
+# Color palettes
+change_pal <- colorFactor(c("#FF0000", "#E6E600"), domain = c("pos", "neg"))
+
+typology_pal <- colorFactor(c("black", "orange", "blue"), domain = data$Typology)
+
+# Initialize leaflet map
+leaflet(data) %>%
+  addTiles() %>%
+
+  # Layer 1: Total Change
+  addCircles(
+    group = "Total Change",
+    lng = ~Longitude,
+    lat = ~Latitude,
+    radius = ~(abs(total_change) +5) * 75,
+    popup = ~paste0("<strong>Site:</strong> ", Site,
+                    "<br><strong>Change:</strong> ", round(total_change, 2)),
+    color = "black",
+    fillColor = ~change_pal(direction),
+    fillOpacity = 0.9,
+    stroke = TRUE
+  ) %>%
+
+  # Layer 2: Typology
+  addCircleMarkers(
+    group = "Typology",
+    lng = ~Longitude,
+    lat = ~Latitude,
+    radius = 10,
+    popup = ~paste0("<strong>Site:</strong> ", Site,
+                    "<br><strong>Typology:</strong> ", Typology),
+    color = ~typology_pal(Typology),
+    fillOpacity = 0.9,
+    stroke = TRUE,
+    weight = 1
+  ) %>%
+  
+    # Site Labels
+  addLabelOnlyMarkers(
+    lng = ~Longitude,
+    lat = ~Latitude,
+    label = ~Site,
+    labelOptions = labelOptions(
+      noHide = TRUE,
+      direction = "bottom",
+      textOnly = TRUE,
+      color = "black",
+      style = list(
+        "font-family" = "serif",
+        "font-style" = "bold",
+        "font-size" = "12px",
+        "pointer-events" = "none"
+      )
+    )
+  ) %>%
+  
+addControl(
+  html = HTML("
+    <div style='background: white; padding: 15px 20px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.3); font-family: sans-serif; width: 420px; text-align: center;'>
+
+      <!-- Title -->
+      <div style='font-weight: bold; font-size: 14px; margin-bottom: 10px;'>Mean Basal Change (2022–2024)</div>
+
+      <!-- Circle legend -->
+      <div style='display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; font-size: 12px;'>
+        <div><strong>Negative</strong></div>
+        <div><strong>Positive</strong></div>
+      </div>
+
+      <svg width='100%' height='55'>
+        <!-- Red circles (negative change) -->
+        <circle cx='32' cy='25' r='20' fill='#FF0000' stroke='black' stroke-width='1'/>
+        <circle cx='72' cy='25' r='15' fill='#FF0000' stroke='black' stroke-width='1'/>
+        <circle cx='108' cy='25' r='12' fill='#FF0000' stroke='black' stroke-width='1'/>
+        <circle cx='138' cy='25' r='9'  fill='#FF0000' stroke='black' stroke-width='1'/>
+        <circle cx='162' cy='25' r='6'  fill='#FF0000' stroke='black' stroke-width='1'/>
+
+        <!-- Yellow circles (positive change) -->
+        <circle cx='198' cy='25' r='6'  fill='#E6E600' stroke='black' stroke-width='1'/>
+        <circle cx='222' cy='25' r='9'  fill='#E6E600' stroke='black' stroke-width='1'/>
+        <circle cx='252' cy='25' r='12' fill='#E6E600' stroke='black' stroke-width='1'/>
+        <circle cx='288' cy='25' r='15' fill='#E6E600' stroke='black' stroke-width='1'/>
+        <circle cx='328' cy='25' r='20' fill='#E6E600' stroke='black' stroke-width='1'/>
+      </svg>
+
+      <!-- Spacer -->
+      <div style='height: 10px;'></div>
+
+      <!-- Typology Title -->
+      <div style='font-weight: bold; font-size: 14px; margin-bottom: 5px;'>Typology</div>
+
+      <!-- Typology legend -->
+      <svg width='100%' height='40'>
+        <circle cx='100' cy='15' r='8' fill='black' stroke='black' stroke-width='1'/>
+        <text x='90' y='35' font-size='12'>Basin</text>
+
+        <circle cx='180' cy='15' r='8' fill='orange' stroke='black' stroke-width='1'/>
+        <text x='165' y='35' font-size='12'>Fringe</text>
+
+        <circle cx='260' cy='15' r='8' fill='blue' stroke='black' stroke-width='1'/>
+        <text x='240' y='35' font-size='12'>Salt Pond</text>
+      </svg>
+
+    </div>
+  "),
+  position = "bottomleft"
+) %>% 
+
+  # Layers control
+  addLayersControl(
+    baseGroups = c("Typology", "Total Change"),
+    options = layersControlOptions(collapsed = FALSE)
+  ) %>% 
+  
+  setView( lng = -64.8, lat = 18.0, zoom = 10 ) %>% 
+  addProviderTiles("Esri.OceanBasemap")
+  
+```
+
 # **Site Map**
 
-## Row {height=60%}
+## Row {height="60%"}
 
-### Column {width=50%}
+### Column {width="50%"}
 
 ::: {.card title="General Site Map"}
-![](images/General Site Map-03.jpg)
+![](images/General%20Site%20Map-03.jpg)
 :::
 
-### Column {width=50%}
+### Column {width="50%"}
 
 ::: {.card title="Percent Basal Change"}
 ![](images/PercentChange-03.jpg)
@@ -49,9 +180,9 @@ YSI_data <- read_xlsx(Mangrove_Input_Excel_File, sheet = "YSI Water Quality data
 
 # **Density**
 
-## Row {height=40%}
+## Row {height="40%"}
 
-### Column {width=50%}
+### Column {width="50%"}
 
 ```{r}
 #| title: Seedling Density
@@ -135,10 +266,9 @@ for(i in island$Site) {
 }
 ```
 
-
 # **Densiometer**
 
-## Column {width=80%}
+## Column {width="80%"}
 
 ```{r}
 #| title: Densiometer Data
@@ -169,4 +299,3 @@ water_qual_table(YSI = YSI_data) %>%
   tab_options(table.width = "75%") %>% 
   opt_table_font(size = "18px")
 ```
-
