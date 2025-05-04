@@ -561,6 +561,23 @@ sapling_density <- function(regen, sapling, species, densio, breaks = NULL) {
 
 }
 
+# ------------------------------------------------------------------------------
+# Function: sapling_rel_abundance_table
+# Purpose: Generate a formatted table of sapling stem density by species, site,
+#          and year. Displays mean sapling density with associated standard error
+#          for each species at each site-year combination.
+#
+# Parameters:
+#   - regen: Data frame containing regeneration counts (saplings and seedlings).
+#   - sapling: Unused in current function but reserved for compatibility/extension.
+#   - species: String. Species code (e.g., "RHMA", "AVGE", "LARA").
+#   - densio: Data frame containing site-to-island mapping.
+#
+# Returns:
+#   - A gt table object with site- and year-grouped rows showing sapling density
+#     estimates (mean ± SE) for each species, formatted for clear presentation.
+# ------------------------------------------------------------------------------
+
 sapling_rel_abundance_table <- function(regen, sapling, species, densio) {
   
   pretty_name <- function(species) {
