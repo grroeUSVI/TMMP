@@ -72,11 +72,12 @@ site_LF <- function(tree_measurements, site, bin_size) {
 create_tree_measurement_table <- function(tree_measurements, tree_heights) {
   
   a <- mean_basal_area(tree_measurements)
-  b <- spp_contibution(tree_measurements)
-  c <- mean_tree_height(tree_heights)
-  d <- mean_stem_density(tree_measurements)
+  b <- spp_contibution(tree_measurements, mortality = "alive")
+  c <- spp_contibution(tree_measurements, mortality = "dead")
+  d <- mean_tree_height(tree_heights)
+  e <- mean_stem_density(tree_measurements)
   
-  x <- reduce(.x = list(a,b,c,d), .f = full_join)
+  x <- reduce(.x = list(a,b,c,d,e), .f = full_join)
   
   format_x <- x %>% 
     mutate(across(where(is.numeric), round, 1)) %>% 
@@ -87,7 +88,7 @@ create_tree_measurement_table <- function(tree_measurements, tree_heights) {
       Basal_Area = paste(mean_basal_area, "±", mean_basal_area_SE),
       Density = paste(mean_stem_density, "±", mean_stem_density_SE)
     ) %>% 
-    select(SY, Site, Height, Basal_Area, Density, RHMA, AVGE, LARA)
+    select(SY, Site, Height, Basal_Area, Density, RHMA_alive, AVGE_alive, LARA_alive, RHMA_dead, AVGE_dead, LARA_dead)
   
 # Table using gt
  table <- format_x %>% 
@@ -99,14 +100,18 @@ create_tree_measurement_table <- function(tree_measurements, tree_heights) {
     cols_label(
       # empty = md('&emsp;&emsp;&emsp;'),
       SY = md("Year <br/> &emsp; "),
-      RHMA = md("*R. mangle* <br/> (%)"),
-      AVGE = md("*A. germinians* <br/> (%)"),
-      LARA = md("*L. racemosa* <br/> (%)"),
+      RHMA_alive = md("*R. mangle* <br/> (%)"),
+      AVGE_alive = md("*A. germinians* <br/> (%)"),
+      LARA_alive = md("*L. racemosa* <br/> (%)"),
+      RHMA_dead = md("*R. mangle* <br/> (%)"),
+      AVGE_dead = md("*A. germinians* <br/> (%)"),
+      LARA_dead = md("*L. racemosa* <br/> (%)"),
       Height = md("Height <br/> (m)"),
       Basal_Area = md("Basal area <br/> (m²/ha)"),
       Density = md("Density <br/> (stems/ha)")
     ) %>% 
-    tab_spanner(label = "Relative Distribution of Species", columns = RHMA:LARA) %>% 
+    tab_spanner(label = "Relative Distribution of Species (Alive)", columns = RHMA_alive:LARA_alive) %>% 
+    tab_spanner(label = "Relative Distribution of Species (Dead)", columns = RHMA_dead:LARA_dead) %>%
     cols_align(align = "center", everything()) %>%
     # cols_width(empty ~ px(30),
     #            Density ~ px(120),
@@ -129,6 +134,77 @@ create_tree_measurement_table <- function(tree_measurements, tree_heights) {
  
  return(table)
   
+}
+
+# Create a table of densiometer data
+# Parameters:
+# 1) densiometer_data
+# Outputs a figure
+densiometer_data_table <- function(densiometer_data) {
+  a <- densiometer_data %>% select(Site, Plot, SY, starts_with("Calc"))
+  b <- df_long <- a %>%
+    mutate(across(starts_with("Calc_"), ~ suppressWarnings(as.numeric(.)))) %>% 
+    pivot_longer(cols = starts_with("Calc_"),
+                 names_to = c("Direction", "Type"),
+                 names_pattern = "Calc_([NSEW])_([A-Za-z]+)")
+  
+  c <- b %>% group_by(SY, Site, Plot, Type) %>% 
+    summarise(perc_plot = mean(value, na.rm = T), .groups = "drop")
+  d <- c %>% group_by(SY, Site, Type) %>% 
+    summarise(perc = mean(perc_plot, na.rm = T), perc_SE = standard_error(perc_plot, na.rm = T), .groups = "drop")
+  
+  
+  d2 <- d %>%
+    pivot_wider(
+      id_cols = c(SY, Site),
+      names_from = Type,
+      values_from = c(perc, perc_SE),
+      values_fill = 0,
+      names_glue = "{Type}_{.value}"
+    ) %>% 
+    select(SY, Site, Veg_perc, Veg_perc_SE, Wood_perc, Wood_perc_SE, Open_perc, Open_perc_SE)
+  
+  format_x <- d2 %>% 
+    mutate(across(where(is.numeric), round, 1)) %>% 
+    mutate(
+      Alive = paste(Veg_perc, "±", Veg_perc_SE),
+      Dead = paste(Wood_perc, "±", Wood_perc_SE),
+      Open = paste(Open_perc, "±", Open_perc_SE)
+    ) %>% 
+    select(SY, Site, Alive, Dead, Open)
+  
+  # Table using gt
+  table <- format_x %>% 
+    gt(rowname_col = "SY", groupname_col = "Site") %>%
+    cols_add(empty = NA_character_, .before = "SY") %>%
+    sub_missing(columns = empty, missing_text = "     ") %>%
+    fmt_markdown() %>% 
+    cols_label(
+      empty = md('&emsp;&emsp;&emsp;'),
+      SY = md("Year <br/> &emsp; "),
+      Alive = md("Alive"),
+      Dead = md("Dead"),
+      Open = md("Open")
+    ) %>% 
+    cols_align(align = "center", everything()) %>%
+    cols_width(empty ~ px(30),
+               everything() ~ px(100)) %>% 
+    tab_options(
+      table.font.size = px(14),  
+      row_group.as_column = FALSE,  
+      data_row.padding = px(5)
+    )
+  # opt_interactive(
+  # use_search = TRUE,
+  # use_filters = FALSE,
+  # use_resizers = TRUE,
+  # use_highlight = TRUE,
+  # use_compact_mode = FALSE,
+  # use_text_wrapping = FALSE,
+  # use_page_size_select = TRUE
+  # )
+
+  return(table)
 }
 
 # Create a figure of diverging bar chart by site with open plotted as line over top
@@ -164,7 +240,7 @@ densiometer_figure <- function(densiometer_data) {
                size = 1.5, alpha = .50) +
     facet_wrap(~Site) +
     scale_y_continuous(limits = c(-50,100), labels = abs) +
-    labs(y = "Forest Cover (%)", x = "Year", fill = "Cover Type", color = element_blank()) +
+    labs(y = "Canopy Cover (%)", x = "Year", fill = "Cover Type", color = element_blank()) +
     theme_Publication() +
     scale_fill_manual(values = c("Alive" = "darkolivegreen3", "Dead" = "burlywood4")) +
     scale_color_manual(values = c("Open Area" = "deepskyblue"))
@@ -522,13 +598,44 @@ mean_basal_area <- function(tree_measurements) {
   
 }
 
-# Calculate % species contribution to mean basal area by year and site
-# Hard coded filters: red, white, black mangroves & Alive or Dead & Years 1,3
+# Calculate mean +- SE basal area by year and site
+# Hard coded filters: red, white, black mangroves & Dead
 # Outputs a dataframe
-spp_contibution <- function(tree_measurements) {
+mean_basal_area_dead <- function(tree_measurements) {
+  
+  a <- tree_measurements %>% 
+    filter(Species %in% c("RHMA", "AVGE", "LARA") & Mortality %in% c("Dead")) %>% 
+    select(SY, Site, Plot, Species, DBH_cm) %>% 
+    mutate(basal_area = basal_area(DBH_cm)) %>% 
+    group_by(SY, Site, Plot) %>% 
+    summarise(basal_plot = sum(basal_area, na.rm = T), .groups = "drop") %>% 
+    group_by(SY, Site) %>% 
+    summarise(mean_basal_area = mean(basal_plot, na.rm = T), mean_basal_area_SE = standard_error(basal_plot), .groups = "drop") %>%
+    filter(!is.na(SY)) %>% 
+    mutate(across(.cols = everything(), \(x) replace_na(x, 0)))
+  
+  
+  return(a)
+  
+}
+
+# Calculate % species contribution to mean basal area by year and site
+# Hard coded filters: red, white, black mangroves & Alive & Years 1,3
+# Outputs a dataframe
+spp_contibution <- function(tree_measurements, mortality) {
+  
+  # Determine mortality filter condition based on input
+  mortality_filter <- if (tolower(mortality) == "alive") {
+    c("Alive", "Dying")
+  } else {
+    c("Dead")
+  }
+  
+  suffix <- if (mortality == "alive") "_alive" else "_dead"
   
   x <- tree_measurements %>%
-    filter(Species %in% c("RHMA", "AVGE", "LARA")) %>%
+    filter(Species %in% c("RHMA", "AVGE", "LARA") & 
+             Mortality %in% mortality_filter) %>%
     select(SY, Site, Plot, Species, DBH_cm) %>%
     group_by(SY, Site, Plot, Species) %>%
     summarise(basal_area_sum = sum(basal_area(DBH_cm), na.rm = T), .groups = "drop") %>% 
@@ -539,7 +646,9 @@ spp_contibution <- function(tree_measurements) {
     group_by(SY, Site) %>% 
     mutate(contibution = (mean_basal_area / sum(mean_basal_area))*100) %>% 
     ungroup() %>% 
-    pivot_wider(, id_cols = !mean_basal_area, names_from = Species, values_from = contibution)
+    pivot_wider(, id_cols = !mean_basal_area, names_from = Species, values_from = contibution) %>% 
+    rename_with(.cols = c(RHMA, AVGE, LARA), ~ paste0(., suffix))
+    
   
   return(x)
   
@@ -595,17 +704,67 @@ percent_basal_area_change <- function(tree_measurements) {
 # Calculates the average basal change from 2022 to 2024 for each site in terms of m2
 # Hardcoded: The percent_change field uses hard coded years (as strings), 2022 and 2024  
 # Outputs a datframe
-total_basal_area_change <- function(tree_measurements, site_coords) {
-  
-  site_latlon <- site_coordinates(site_coords)
+total_basal_area_change <- function(tree_measurements) {
   
   a <- mean_basal_area(tree_measurements) %>% 
     select(SY, Site, mean_basal_area) %>%
     pivot_wider(names_from = SY, values_from = mean_basal_area, values_fill = 0) %>%
     mutate(total_change = (`2024` - `2022`)) %>% 
-    right_join(site_latlon) %>% 
+    select(Site, total_change) %>% 
+    # right_join(site_latlon) %>% 
     mutate(across(.cols = everything(), \(x) replace_na(x, 0)))
     
+  
+  return(a)
+}
+
+# Calculates the average basal change from 2022 to 2024 for each site in terms of m2 for dead trees
+# Hardcoded: The percent_change field uses hard coded years (as strings), 2022 and 2024  
+# Outputs a datframe
+total_basal_area_change_dead <- function(tree_measurements) {
+  
+  a <- mean_basal_area_dead(tree_measurements) %>% 
+    select(SY, Site, mean_basal_area) %>%
+    pivot_wider(names_from = SY, values_from = mean_basal_area, values_fill = 0) %>%
+    mutate(total_change_dead = (`2024` - `2022`)) %>% 
+    select(Site, total_change_dead) %>% 
+    # right_join(site_latlon) %>% 
+    mutate(across(.cols = everything(), \(x) replace_na(x, 0)))
+  
+  
+  return(a)
+}
+
+# Calculates the average tree change from 2022 to 2024 for each site in terms of m
+# Hardcoded: The percent_change field uses hard coded years (as strings), 2022 and 2024  
+# Outputs a datframe
+total_tree_height_change <- function(tree_heights) {
+  
+  a <- mean_tree_height(tree_heights = tree_heights) %>% 
+    select(SY, Site, mean_height) %>%
+    pivot_wider(names_from = SY, values_from = mean_height, values_fill = 0) %>%
+    mutate(height_change = (`2024` - `2022`)) %>% 
+    select(Site, height_change) %>% 
+    # right_join(site_latlon) %>% 
+    mutate(across(.cols = everything(), \(x) replace_na(x, 0)))
+  
+  
+  return(a)
+}
+
+# Calculates the average stem density change from 2022 to 2024 for each site
+# Hardcoded: The percent_change field uses hard coded years (as strings), 2022 and 2024  
+# Outputs a datframe
+total_stem_density_change <- function(tree_measurements) {
+  
+  a <- mean_stem_density(tree_measurements = tree_measurements) %>% 
+    select(SY, Site, mean_stem_density) %>%
+    pivot_wider(names_from = SY, values_from = mean_stem_density, values_fill = 0) %>%
+    mutate(stem_density_change = (`2024` - `2022`)) %>% 
+    select(Site, stem_density_change) %>% 
+    # right_join(site_latlon) %>% 
+    mutate(across(.cols = everything(), \(x) replace_na(x, 0)))
+  
   
   return(a)
 }

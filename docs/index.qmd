@@ -33,15 +33,63 @@ sapling_data <- read_xlsx(Mangrove_Input_Excel_File, sheet = "Sapling")
 YSI_data <- read_xlsx(Mangrove_Input_Excel_File, sheet = "YSI Water Quality data")
 ```
 
-# **Leaflet Map**
+# **Site Map**
+
+## Column {width="50%"}
+
+::: {.card title="General Site Map"}
+<img src="images/General%20Site%20Map-03.jpg" class="img-fluid d-block mx-auto" style="width: 55%;"/>
+:::
+
+# **Canopy Cover**
+
+## Column {width="80%"} {.tabset}
 
 ```{r}
+#| title: Canopy Cover
+#| cache: true
 
-total_basal_change <- total_basal_area_change(tree_measurements = tree_measurements, site_coords = site_coords)
+densiometer_figure(densiometer_data = densiometer_data)
+```
+
+```{r}
+#| title: Canopy Data Table
+#| cache: true
+
+densiometer_data_table(densiometer_data = densiometer_data) %>% 
+    tab_options(table.width = "75%") %>% 
+    opt_table_font(size = "18px")
+```
+
+# **Tree Metrics** {.tabset}
+
+## Column {width=80%} {.tabset}
+
+```{r}
+#| cache: true
+#| title: Metrics Map
+
+total_basal_change <- total_basal_area_change(tree_measurements = tree_measurements)
+total_basal_change_dead <- total_basal_area_change_dead(tree_measurements = tree_measurements)
+total_height_change <- total_tree_height_change(tree_heights = tree_heights)
+total_stem_density_change <- total_stem_density_change(tree_measurements = tree_measurements)
+site_data <- site_coordinates(Coordinates = site_coords)
+
+data <- Reduce(function(x, y) merge(x, y, all = TRUE), list(total_basal_change, 
+                                                            total_basal_change_dead, 
+                                                            total_height_change, 
+                                                            total_stem_density_change)) %>% 
+  left_join(site_data) %>% 
+    mutate(direction = ifelse(total_change > 0, "pos", "neg"),
+           direction_dead = ifelse(total_change_dead > 0, "pos", "neg"),
+           direction_height = ifelse(height_change > 0, "pos", "neg"),
+           direction_density = ifelse(stem_density_change > 0, "pos", "neg"))
+
 
 # Assume total_basal_change is already created
-data <- total_basal_change %>% 
-  mutate(direction = ifelse(total_change > 0, "pos", "neg"))
+# data <- 
+#   mutate(direction = ifelse(total_change > 0, "pos", "neg"),
+#          direction_dead = ifelse(total_change_dead > 0, "pos", "neg"))
 
 # Color palettes
 change_pal <- colorFactor(c("#FF0000", "#E6E600"), domain = c("pos", "neg"))
@@ -54,7 +102,7 @@ leaflet(data) %>%
 
   # Layer 1: Total Change
   addCircles(
-    group = "Total Change",
+    group = "Living Basal Change",
     lng = ~Longitude,
     lat = ~Latitude,
     radius = ~(abs(total_change) +5) * 75,
@@ -65,8 +113,50 @@ leaflet(data) %>%
     fillOpacity = 0.9,
     stroke = TRUE
   ) %>%
+  
+    # Layer 2: Total Change Dead
+  addCircles(
+    group = "Dead Basal Change",
+    lng = ~Longitude,
+    lat = ~Latitude,
+    radius = ~(abs(total_change_dead) +5) * 75,
+    popup = ~paste0("<strong>Site:</strong> ", Site,
+                    "<br><strong>Change:</strong> ", round(total_change_dead, 2)),
+    color = "black",
+    fillColor = ~change_pal(direction_dead),
+    fillOpacity = 0.9,
+    stroke = TRUE
+  ) %>%
+  
+      # Layer 3: Total Height Change
+  addCircles(
+    group = "Tree Height Change",
+    lng = ~Longitude,
+    lat = ~Latitude,
+    radius = ~(abs(height_change) +5) * 75,
+    popup = ~paste0("<strong>Site:</strong> ", Site,
+                    "<br><strong>Change:</strong> ", round(height_change, 2)),
+    color = "black",
+    fillColor = ~change_pal(direction_height),
+    fillOpacity = 0.9,
+    stroke = TRUE
+  ) %>%
+  
+        # Layer 4: Total Stem Density Change
+  addCircles(
+    group = "Stem Density Change",
+    lng = ~Longitude,
+    lat = ~Latitude,
+    radius = ~(abs(stem_density_change) / 3),
+    popup = ~paste0("<strong>Site:</strong> ", Site,
+                    "<br><strong>Change:</strong> ", round(stem_density_change, 2)),
+    color = "black",
+    fillColor = ~change_pal(direction_density),
+    fillOpacity = 0.9,
+    stroke = TRUE
+  ) %>%
 
-  # Layer 2: Typology
+  # Layer 5: Typology
   addCircleMarkers(
     group = "Typology",
     lng = ~Longitude,
@@ -80,31 +170,31 @@ leaflet(data) %>%
     weight = 1
   ) %>%
   
-    # Site Labels
-  addLabelOnlyMarkers(
-    lng = ~Longitude,
-    lat = ~Latitude,
-    label = ~Site,
-    labelOptions = labelOptions(
-      noHide = TRUE,
-      direction = "bottom",
-      textOnly = TRUE,
-      color = "black",
-      style = list(
-        "font-family" = "serif",
-        "font-style" = "bold",
-        "font-size" = "12px",
-        "pointer-events" = "none"
-      )
-    )
-  ) %>%
+  #   # Site Labels, turned off for now, looks messy
+  # addLabelOnlyMarkers(
+  #   lng = ~Longitude,
+  #   lat = ~Latitude,
+  #   label = ~Site,
+  #   labelOptions = labelOptions(
+  #     noHide = TRUE,
+  #     direction = "bottom",
+  #     textOnly = TRUE,
+  #     color = "black",
+  #     style = list(
+  #       "font-family" = "serif",
+  #       "font-style" = "bold",
+  #       "font-size" = "12px",
+  #       "pointer-events" = "none"
+  #     )
+  #   )
+  # ) %>%
   
 addControl(
   html = HTML("
     <div style='background: white; padding: 15px 20px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.3); font-family: sans-serif; width: 420px; text-align: center;'>
 
       <!-- Title -->
-      <div style='font-weight: bold; font-size: 14px; margin-bottom: 10px;'>Mean Basal Change (2022–2024)</div>
+      <div style='font-weight: bold; font-size: 14px; margin-bottom: 10px;'>Mean Change from 2022-2024</div>
 
       <!-- Circle legend -->
       <div style='display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; font-size: 12px;'>
@@ -153,7 +243,7 @@ addControl(
 
   # Layers control
   addLayersControl(
-    baseGroups = c("Typology", "Total Change"),
+    baseGroups = c("Living Basal Change", "Dead Basal Change", "Tree Height Change", "Stem Density Change","Typology"),
     options = layersControlOptions(collapsed = FALSE)
   ) %>% 
   
@@ -162,21 +252,14 @@ addControl(
   
 ```
 
-# **Site Map**
+```{r}
+#| title: Tree Measurements Table
+#| cache: true
 
-## Row {height="60%"}
-
-### Column {width="50%"}
-
-::: {.card title="General Site Map"}
-![](images/General%20Site%20Map-03.jpg)
-:::
-
-### Column {width="50%"}
-
-::: {.card title="Percent Basal Change"}
-![](images/PercentChange-03.jpg)
-:::
+create_tree_measurement_table(tree_measurements = tree_measurements, tree_heights = tree_heights) %>% 
+  tab_options(table.width = "75%") %>% 
+    opt_table_font(size = "18px")
+```
 
 # **Density**
 
@@ -187,6 +270,7 @@ addControl(
 ```{r}
 #| title: Seedling Density
 #| padding: 2px
+#| cache: true
  
 seedling_density(regen = regen_data, densio = densiometer_data, breaks = 15)
 ```
@@ -195,16 +279,20 @@ seedling_density(regen = regen_data, densio = densiometer_data, breaks = 15)
 
 ```{r}
 #| title: R. mangle Density
+#| cache: true
 sapling_density(regen =  regen_data, sapling = sapling_data, species = "RHMA", densio = densiometer_data)
 ```
 
 ```{r}
 #| title: A. germinians Density
+#| cache: true
 sapling_density(regen =  regen_data, sapling = sapling_data, species = "AVGE", densio = densiometer_data)
 ```
 
 ```{r}
 #| title: L. racemosa Density
+#| cache: true
+
 sapling_density(regen =  regen_data, sapling = sapling_data, species = "LARA", densio = densiometer_data)
 ```
 
@@ -215,6 +303,7 @@ sapling_density(regen =  regen_data, sapling = sapling_data, species = "LARA", d
 #### St. Thomas {.tabset}
 
 ```{r results='asis', echo=FALSE, fig.width=9.8, fig.height=7.5}
+#| cache: true
 
 island <- densiometer_data %>% 
   filter(Island == "St Thomas") %>% 
@@ -233,6 +322,7 @@ for(i in island$Site) {
 #### St. John {.tabset}
 
 ```{r results='asis', echo=FALSE, fig.width=9.8, fig.height=7.5}
+#| cache: true
 
 island <- densiometer_data %>% 
   filter(Island =="St John") %>% 
@@ -251,6 +341,7 @@ for(i in island$Site) {
 #### St. Croix {.tabset}
 
 ```{r results='asis', echo=FALSE, fig.width=9.8, fig.height=7.5}
+#| cache: true
 
 island <- densiometer_data %>% 
   filter(Island =="St Croix") %>% 
@@ -266,28 +357,14 @@ for(i in island$Site) {
 }
 ```
 
-# **Densiometer**
-
-## Column {width="80%"}
-
-```{r}
-#| title: Densiometer Data
-densiometer_figure(densiometer_data = densiometer_data)
-```
-
 # **Appendix**
 
 ## Column {width=80%} {.tabset}
 
 ```{r}
-#| title: Tree Measurements
-create_tree_measurement_table(tree_measurements = tree_measurements, tree_heights = tree_heights) %>% 
-  tab_options(table.width = "75%") %>% 
-    opt_table_font(size = "18px")
-```
-
-```{r}
 #| title: Seedling Density
+#| cache: true
+
 seedling_rel_abundance_table(regen_data = regen_data) %>% 
   tab_options(table.width = "75%") %>% 
     opt_table_font(size = "18px")
@@ -295,6 +372,8 @@ seedling_rel_abundance_table(regen_data = regen_data) %>%
 
 ```{r}
 #| title: Water Quality
+#| cache: true
+
 water_qual_table(YSI = YSI_data) %>% 
   tab_options(table.width = "75%") %>% 
   opt_table_font(size = "18px")
