@@ -261,44 +261,28 @@ create_tree_measurement_table(tree_measurements = tree_measurements, tree_height
     opt_table_font(size = "18px")
 ```
 
-# **Density**
-
-## Row {height="40%"}
-
-### Column {width="50%"}
-
-```{r}
-#| title: Seedling Density
-#| padding: 2px
-#| cache: true
- 
-seedling_density(regen = regen_data, densio = densiometer_data, breaks = 15)
-```
-
-### Column {width=50%} {.tabset}
-
-```{r}
-#| title: R. mangle Density
-#| cache: true
-sapling_density(regen =  regen_data, sapling = sapling_data, species = "RHMA", densio = densiometer_data)
-```
-
-```{r}
-#| title: A. germinians Density
-#| cache: true
-sapling_density(regen =  regen_data, sapling = sapling_data, species = "AVGE", densio = densiometer_data)
-```
-
-```{r}
-#| title: L. racemosa Density
-#| cache: true
-
-sapling_density(regen =  regen_data, sapling = sapling_data, species = "LARA", densio = densiometer_data)
-```
-
-# **DBH Size Distributions**
+# **Tree Sizes**
 
 ## Column {width=80%} {.tabset}
+
+#### By Year {.tabset}
+
+```{r results='asis', echo=FALSE, fig.width=12, fig.height=7}
+#| title: "2022"
+#| cache: true
+
+all_sites_LF(tree_measurements = tree_measurements, year = 2022, bin_size = 3)
+
+```
+
+```{r results='asis', echo=FALSE, fig.width=12, fig.height=7}
+#| title: "2024"
+#| cache: true
+
+all_sites_LF(tree_measurements = tree_measurements, year = 2024, bin_size = 3)
+
+```
+
 
 #### St. Thomas {.tabset}
 
@@ -357,18 +341,66 @@ for(i in island$Site) {
 }
 ```
 
-# **Appendix**
+# **Saplings**
 
-## Column {width=80%} {.tabset}
+## Column {.tabset}
+
+```{r}
+#| title: R. mangle Density
+#| cache: true
+sapling_density(regen =  regen_data, sapling = sapling_data, species = "RHMA", densio = densiometer_data)
+```
+
+```{r}
+#| title: A. germinians Density
+#| cache: true
+sapling_density(regen =  regen_data, sapling = sapling_data, species = "AVGE", densio = densiometer_data)
+```
+
+```{r}
+#| title: L. racemosa Density
+#| cache: true
+
+sapling_density(regen =  regen_data, sapling = sapling_data, species = "LARA", densio = densiometer_data)
+```
+
+```{r}
+#| title: Sapling Density Table
+#| padding: 2px
+#| cache: true
+ 
+sapling_rel_abundance_table(regen =  regen_data, sapling = sapling_data, species = "RHMA", densio = densiometer_data) %>% 
+  tab_options(table.width = "75%") %>% 
+    opt_table_font(size = "18px")
+```
+
+# **Seedlings**
+
+## Column {.tabset}
 
 ```{r}
 #| title: Seedling Density
+#| padding: 2px
 #| cache: true
+ 
+seedling_density(regen = regen_data, densio = densiometer_data, breaks = 15)
+```
 
+```{r}
+#| title: Seedling Density Table
+#| padding: 2px
+#| cache: true
+ 
 seedling_rel_abundance_table(regen_data = regen_data) %>% 
   tab_options(table.width = "75%") %>% 
     opt_table_font(size = "18px")
 ```
+
+# Woody Debris
+
+# **Water Quality**
+
+## Column {width=80%} {.tabset}
 
 ```{r}
 #| title: Water Quality
